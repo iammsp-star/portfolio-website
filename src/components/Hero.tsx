@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Terminal, Download, ChevronRight, Github, Linkedin } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Terminal, Download, ChevronRight, Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const Hero = () => {
@@ -70,12 +71,12 @@ export const Hero = () => {
                         transition={{ delay: 3.5, duration: 0.5 }}
                         className="flex flex-wrap gap-4 pt-4"
                     >
-                        <button className="group relative px-6 py-3 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/50 rounded-lg flex items-center gap-2 transition-all overflow-hidden text-sm md:text-base font-medium">
+                        <Link to="/projects" className="group relative px-6 py-3 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/50 rounded-lg flex items-center gap-2 transition-all overflow-hidden text-sm md:text-base font-medium">
                             <Terminal size={18} />
                             <span>View Projects</span>
                             <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
                             <div className="absolute inset-0 bg-primary/20 blur-xl opacity-0 group-hover:opacity-50 transition-opacity" />
-                        </button>
+                        </Link>
 
                         <button className="px-6 py-3 hover:bg-white/5 text-slate-300 border border-slate-700/50 hover:border-slate-500 rounded-lg flex items-center gap-2 transition-all text-sm md:text-base">
                             <Download size={18} />
@@ -90,6 +91,11 @@ export const Hero = () => {
                         <a href="https://www.linkedin.com/in/manas-puthanpura-5b06b0377/" target="_blank" rel="noopener noreferrer" className="px-6 py-3 hover:bg-white/5 text-slate-300 border border-slate-700/50 hover:border-slate-500 rounded-lg flex items-center gap-2 transition-all text-sm md:text-base">
                             <Linkedin size={18} />
                             <span>LinkedIn</span>
+                        </a>
+
+                        <a href="mailto:manassubhash2007@gmail.com" className="px-6 py-3 hover:bg-white/5 text-slate-300 border border-slate-700/50 hover:border-slate-500 rounded-lg flex items-center gap-2 transition-all text-sm md:text-base">
+                            <Mail size={18} />
+                            <span>Email</span>
                         </a>
                     </motion.div>
                 </div>
