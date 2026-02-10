@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Terminal, Download, ChevronRight, Github } from 'lucide-react';
+import { Terminal, Download, ChevronRight, Github, Linkedin } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const Hero = () => {
@@ -85,6 +85,11 @@ export const Hero = () => {
                         <a href="https://github.com/iammsp-star" target="_blank" rel="noopener noreferrer" className="px-6 py-3 hover:bg-white/5 text-slate-300 border border-slate-700/50 hover:border-slate-500 rounded-lg flex items-center gap-2 transition-all text-sm md:text-base">
                             <Github size={18} />
                             <span>GitHub</span>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/manas-puthanpura-5b06b0377/" target="_blank" rel="noopener noreferrer" className="px-6 py-3 hover:bg-white/5 text-slate-300 border border-slate-700/50 hover:border-slate-500 rounded-lg flex items-center gap-2 transition-all text-sm md:text-base">
+                            <Linkedin size={18} />
+                            <span>LinkedIn</span>
                         </a>
                     </motion.div>
                 </div>

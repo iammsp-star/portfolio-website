@@ -1,4 +1,4 @@
-import { Github } from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
 import { Hero } from './components/Hero';
 import { Background } from './components/Background';
 import { MetricsBar } from './components/MetricsBar';
@@ -21,6 +21,9 @@ function App() {
           <div className="flex justify-center gap-6 mb-4">
             <a href="https://github.com/iammsp-star" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
               <Github size={20} />
+            </a>
+            <a href="https://www.linkedin.com/in/manas-puthanpura-5b06b0377/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+              <Linkedin size={20} />
             </a>
             {/* Add more social links here if needed */}
           </div>
