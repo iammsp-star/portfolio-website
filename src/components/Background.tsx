@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 
 const ParticleNetwork = () => {
-    const ref = useRef<any>();
+    const ref = useRef<any>(null);
 
     const particleCount = 2000;
     const positions = useMemo(() => {
@@ -22,7 +22,7 @@ const ParticleNetwork = () => {
         return positions;
     }, []);
 
-    useFrame((state, delta) => {
+    useFrame((_, delta) => {
         if (ref.current) {
             ref.current.rotation.x -= delta / 15;
             ref.current.rotation.y -= delta / 20;

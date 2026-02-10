@@ -1,6 +1,6 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Code2, Database, BarChart3, Brain } from 'lucide-react';
+import { Github, ExternalLink, Database, BarChart3, Brain } from 'lucide-react';
 
 const projects = [
     {

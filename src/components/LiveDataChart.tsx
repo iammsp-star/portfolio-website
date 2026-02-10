@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { motion } from 'framer-motion';
 import { Activity } from 'lucide-react';
 
 const generateData = (count: number) => {
@@ -81,7 +80,7 @@ export const LiveDataChart = () => {
                                     contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '8px' }}
                                     itemStyle={{ color: '#ef4444' }}
                                     labelStyle={{ color: '#94a3b8' }}
-                                    formatter={(value: number) => [value.toFixed(4), "Loss"]}
+                                    formatter={(value: any) => [Number(value).toFixed(4), "Loss"]}
                                     labelFormatter={(label) => `Epoch ${label}`}
                                 />
                                 <Area

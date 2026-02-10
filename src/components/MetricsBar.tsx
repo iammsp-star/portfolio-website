@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, useSpring, useTransform } from 'framer-motion';
 
 const MetricItem = ({ label, value, suffix = '' }: { label: string, value: number, suffix?: string }) => {

@@ -1,6 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, Database, Layout, Server, Brain, Code } from 'lucide-react';
+import { Database, Layout, Server, Brain } from 'lucide-react';
 
 const SkillItem = ({ icon: Icon, title, skills, color }: any) => (
     <div className="glass-card p-6 h-full border-t-2 border-t-transparent hover:border-t-current transition-all group" style={{ color: color.replace('text-', '') }}>
