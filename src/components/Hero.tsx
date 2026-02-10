@@ -82,7 +82,7 @@ export const Hero = () => {
                             <span>Download CV</span>
                         </button>
 
-                        <a href="https://github.com/manas" target="_blank" rel="noopener noreferrer" className="px-6 py-3 hover:bg-white/5 text-slate-300 border border-slate-700/50 hover:border-slate-500 rounded-lg flex items-center gap-2 transition-all text-sm md:text-base">
+                        <a href="https://github.com/iammsp-star" target="_blank" rel="noopener noreferrer" className="px-6 py-3 hover:bg-white/5 text-slate-300 border border-slate-700/50 hover:border-slate-500 rounded-lg flex items-center gap-2 transition-all text-sm md:text-base">
                             <Github size={18} />
                             <span>GitHub</span>
                         </a>

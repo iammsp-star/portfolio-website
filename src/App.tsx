@@ -19,7 +19,7 @@ function App() {
 
         <footer className="py-8 text-center text-slate-600 text-sm font-mono border-t border-slate-900 bg-slate-950/50 backdrop-blur-sm">
           <div className="flex justify-center gap-6 mb-4">
-            <a href="https://github.com/manas" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+            <a href="https://github.com/iammsp-star" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
               <Github size={20} />
             </a>
             {/* Add more social links here if needed */}
