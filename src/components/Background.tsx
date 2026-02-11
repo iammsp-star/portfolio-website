@@ -34,7 +34,7 @@ const ParticleNetwork = () => {
             <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
                 <PointMaterial
                     transparent
-                    color="#38bdf8"
+                    color="#00f0ff"
                     size={0.012}
                     sizeAttenuation={true}
                     depthWrite={false}

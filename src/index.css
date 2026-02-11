@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  background-color: #0f172a;
+  background-color: #020617;
   color: #f8fafc;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;

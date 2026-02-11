@@ -7,16 +7,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0f172a',
-        primary: '#38bdf8', // Data Blue
+        background: '#020617', // Deep Midnight Blue
+        primary: '#00f0ff', // Neon Cyan
         secondary: '#bef264', // Cyber Lime
         accent: '#f472b6',
         slate: {
-          850: '#1e293b', // Slightly lighter background for cards
+          850: '#0f172a', // Slightly lighter background for cards
+          900: '#020617', // Deepest background
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Space Grotesk', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
       backgroundImage: {
