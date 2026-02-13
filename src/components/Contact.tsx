@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Send, Mail, MapPin, Globe } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { useState } from 'react';
 
 const Contact = () => {
@@ -18,110 +18,122 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="py-20 relative font-mono">
+        <section id="contact" className="py-20 relative font-mono text-slate-300">
             <div className="container mx-auto px-6 max-w-4xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-16"
+                    className="mb-16 border-b border-primary/30 pb-4"
                 >
-                    <span className="terminal-text text-primary text-sm tracking-widest mb-2 block">COMMUNICATION_LINK</span>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Establish Connection</h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">
-                        Initiate handshake protocol. Send encrypted transmission regarding collaboration or inquiries.
+                    <span className="text-primary text-sm tracking-widest mb-2 block">{'<COMMUNICATION_LINK>'}</span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">ESTABLISH_CONNECTION</h2>
+                    <p className="text-slate-500 max-w-2xl">
+                        // Initiate handshake protocol. Send encrypted transmission regarding collaboration or inquiries.
                     </p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     {/* Contact Info */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="space-y-8"
-                    >
-                        <div className="border-l-2 border-primary pl-6 py-2">
+                    <div className="space-y-8">
+                        <div className="border border-slate-800 bg-black p-4 hover:border-primary/50 transition-colors group">
                             <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                <MapPin size={20} className="text-secondary" />
-                                NODE_LOCATION
+                                <span className="text-primary">{'>'}</span> NODE_LOCATION
                             </h3>
-                            <p className="text-slate-400">Bangalore, India (IST)</p>
-                        </div>
-
-                        <div className="border-l-2 border-primary pl-6 py-2">
-                            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                <Mail size={20} className="text-secondary" />
-                                DIRECT_LINE
-                            </h3>
-                            <p className="text-slate-400">manas.puthanpura@example.com</p>
-                            <p className="text-xs text-slate-600 mt-1">PGP Key: 0x44F2...99A</p>
-                        </div>
-
-                        <div className="border-l-2 border-primary pl-6 py-2">
-                            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                <Globe size={20} className="text-secondary" />
-                                NETWORK_NODES
-                            </h3>
-                            <div className="flex gap-4 mt-2">
-                                <a href="#" className="text-slate-400 hover:text-primary transition-colors">[LINKEDIN]</a>
-                                <a href="#" className="text-slate-400 hover:text-primary transition-colors">[GITHUB]</a>
-                                <a href="#" className="text-slate-400 hover:text-primary transition-colors">[TWITTER]</a>
+                            <div className="pl-6 border-l border-primary/20 ml-2">
+                                <p className="text-slate-400">Bangalore, India (IST)</p>
+                                <p className="text-xs text-slate-600 mt-1">lat: 12.9716, long: 77.5946</p>
                             </div>
                         </div>
-                    </motion.div>
+
+                        <div className="border border-slate-800 bg-black p-4 hover:border-primary/50 transition-colors group">
+                            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                                <span className="text-primary">{'>'}</span> DIRECT_LINE
+                            </h3>
+                            <div className="pl-6 border-l border-primary/20 ml-2">
+                                <a href="mailto:manas.puthanpura@example.com" className="text-slate-400 hover:text-primary transition-colors block">
+                                    manas.puthanpura@example.com
+                                </a>
+                                <p className="text-xs text-slate-600 mt-1">PGP Key: 0x44F2...99A</p>
+                            </div>
+                        </div>
+
+                        <div className="border border-slate-800 bg-black p-4 hover:border-primary/50 transition-colors group">
+                            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                                <span className="text-primary">{'>'}</span> NETWORK_NODES
+                            </h3>
+                            <div className="pl-6 border-l border-primary/20 ml-2 flex flex-col gap-2">
+                                <a href="#" className="text-slate-400 hover:text-primary transition-colors font-mono text-sm">
+                                    [LINKEDIN_PROFILE]
+                                </a>
+                                <a href="#" className="text-slate-400 hover:text-primary transition-colors font-mono text-sm">
+                                    [GITHUB_REPO]
+                                </a>
+                                <a href="#" className="text-slate-400 hover:text-primary transition-colors font-mono text-sm">
+                                    [TWITTER_FEED]
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
                     {/* Contact Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.4 }}
-                        className="glass-card bg-slate-900/50 border border-slate-800 p-6 rounded"
-                    >
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="border border-slate-800 bg-black p-6 relative">
+                        <div className="absolute top-0 right-0 p-2 text-xs text-slate-600">v1.0.4</div>
+                        <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
-                                <label className="block text-xs text-secondary mb-1">SOURCE_ID (NAME)</label>
-                                <input
-                                    type="text"
-                                    value={formState.name}
-                                    onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                                    className="w-full bg-black/50 border border-slate-700 p-2 text-white outline-none focus:border-primary transition-colors"
-                                    placeholder="Enter identifier..."
-                                    required
-                                />
+                                <label className="block text-xs text-primary mb-2 font-bold">SOURCE_ID (NAME)</label>
+                                <div className="flex items-center bg-transparent border-b border-slate-700 hover:border-primary transition-colors group">
+                                    <span className="text-slate-500 mr-2">{'>'}</span>
+                                    <input
+                                        type="text"
+                                        value={formState.name}
+                                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                                        className="w-full bg-transparent p-2 text-white outline-none font-mono placeholder-slate-700"
+                                        placeholder="Enter identifier..."
+                                        required
+                                    />
+                                </div>
                             </div>
+
                             <div>
-                                <label className="block text-xs text-secondary mb-1">RETURN_ADDRESS (EMAIL)</label>
-                                <input
-                                    type="email"
-                                    value={formState.email}
-                                    onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                                    className="w-full bg-black/50 border border-slate-700 p-2 text-white outline-none focus:border-primary transition-colors"
-                                    placeholder="Enter encrypted channel..."
-                                    required
-                                />
+                                <label className="block text-xs text-primary mb-2 font-bold">RETURN_ADDRESS (EMAIL)</label>
+                                <div className="flex items-center bg-transparent border-b border-slate-700 hover:border-primary transition-colors group">
+                                    <span className="text-slate-500 mr-2">{'>'}</span>
+                                    <input
+                                        type="email"
+                                        value={formState.email}
+                                        onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                                        className="w-full bg-transparent p-2 text-white outline-none font-mono placeholder-slate-700"
+                                        placeholder="Enter return path..."
+                                        required
+                                    />
+                                </div>
                             </div>
+
                             <div>
-                                <label className="block text-xs text-secondary mb-1">DATA_PACKET (MESSAGE)</label>
-                                <textarea
-                                    value={formState.message}
-                                    onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                                    className="w-full bg-black/50 border border-slate-700 p-2 text-white outline-none focus:border-primary transition-colors h-32"
-                                    placeholder="Input transmission data..."
-                                    required
-                                ></textarea>
+                                <label className="block text-xs text-primary mb-2 font-bold">DATA_PACKET (MESSAGE)</label>
+                                <div className="bg-transparent border border-slate-700 hover:border-primary transition-colors group p-2 relative">
+                                    <textarea
+                                        value={formState.message}
+                                        onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                                        className="w-full bg-transparent text-white outline-none font-mono h-32 resize-none placeholder-slate-700 custom-scrollbar"
+                                        placeholder="Input transmission data..."
+                                        required
+                                    ></textarea>
+                                    <div className="absolute bottom-2 right-2 w-2 h-2 bg-primary animate-pulse"></div>
+                                </div>
                             </div>
+
                             <button
                                 type="submit"
-                                className="w-full bg-primary/10 border border-primary text-primary hover:bg-primary hover:text-black font-bold py-3 transition-all flex items-center justify-center gap-2 group"
+                                className="w-full bg-primary/10 border border-primary text-primary hover:bg-primary hover:text-black font-bold py-3 transition-all flex items-center justify-center gap-2 group uppercase tracking-wider"
                             >
+                                <span className="group-hover:hidden">[ TRANSMIT_DATA ]</span>
+                                <span className="hidden group-hover:inline">[ SENDING... ]</span>
                                 <Send size={16} className="group-hover:translate-x-1 transition-transform" />
-                                TRANSMIT_DATA
                             </button>
                         </form>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>
