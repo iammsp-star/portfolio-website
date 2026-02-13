@@ -1,72 +1,84 @@
 import { motion } from 'framer-motion';
-import { Calendar, Brain, Rocket, GraduationCap } from 'lucide-react';
+import { Terminal, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 
-const timelineData = [
+const logData = [
     {
-        year: '2023',
-        title: 'B.Tech in Data Science',
-        subtitle: 'Academic Foundation',
-        description: 'Specialized in Machine Learning, Deep Learning, and Big Data Analytics.',
-        icon: GraduationCap,
-        type: 'education',
-        side: 'left'
+        timestamp: '2023-05-15 09:00:00',
+        pid: 'edu_init',
+        status: 'SUCCESS',
+        message: 'Completed academic module: B.Tech in Data Science.',
+        details: 'Specialized in Machine Learning, Deep Learning, and Big Data Analytics. Neural pathways established.',
+        type: 'education'
     },
     {
-        year: '2024',
-        title: 'Research & Development',
-        subtitle: 'Technical Deep Dive',
-        description: 'Published paper on "AI in Healthcare". Developed 3 end-to-end ML production systems.',
-        icon: Brain,
-        type: 'tech',
-        side: 'right'
+        timestamp: '2024-02-10 14:30:22',
+        pid: 'r&d_core',
+        status: 'SUCCESS',
+        message: 'Executed Research & Development protocols.',
+        details: 'Published paper on "AI in Healthcare". Developed 3 end-to-end ML production systems for deployment.',
+        type: 'tech'
     },
     {
-        year: '2025',
-        title: 'Founder: Master Calisthenics',
-        subtitle: 'Leadership & Execution',
-        description: 'Launched India’s first AI-driven Calisthenics platform. Scaled to 500+ users in 3 months.',
-        icon: Rocket,
-        type: 'founder',
-        side: 'left'
+        timestamp: '2025-01-01 00:00:01',
+        pid: 'startup_launch',
+        status: 'WARNING',
+        message: 'Initialized Master Calisthenics Elite platform. High load detected.',
+        details: 'Launched India’s first AI-driven Calisthenics platform. Scaled to 500+ users in 3 months. System stability: 99.9%.',
+        type: 'founder'
     },
     {
-        year: 'PRESENT',
-        title: 'Full Stack AI Engineer',
-        subtitle: 'The Convergence',
-        description: 'Merging technical expertise with product vision to build the next generation of AI tools.',
-        icon: Calendar,
-        type: 'current',
-        side: 'right'
+        timestamp: 'CURRENT_TIME',
+        pid: 'sys_main',
+        status: 'RUNNING',
+        message: 'Operating role: Full Stack AI Engineer.',
+        details: 'Merging technical expertise with product vision to build the next generation of AI tools. Continuous integration active.',
+        type: 'current'
     }
 ];
 
-const TimelineItem = ({ item, index }: { item: any; index: number }) => {
-    const isLeft = item.side === 'left';
+const LogEntry = ({ log, index }: { log: any; index: number }) => {
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'SUCCESS': return 'text-primary';
+            case 'WARNING': return 'text-secondary';
+            case 'RUNNING': return 'text-blue-400';
+            default: return 'text-slate-400';
+        }
+    };
+
+    const getIcon = (status: string) => {
+        switch (status) {
+            case 'SUCCESS': return <CheckCircle size={14} />;
+            case 'WARNING': return <AlertCircle size={14} />;
+            case 'RUNNING': return <Clock size={14} className="animate-spin" />;
+            default: return <Terminal size={14} />;
+        }
+    };
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+            initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
-            className={`flex items-center justify-between w-full mb-8 ${isLeft ? 'flex-row-reverse' : ''}`}
+            transition={{ delay: index * 0.1 }}
+            className="font-mono text-xs md:text-sm border-l-2 border-slate-800 pl-4 pb-6 relative last:pb-0 group"
         >
-            <div className="w-5/12"></div>
+            <div className={`absolute -left-[5px] top-1 w-2 h-2 rounded-full ${log.status === 'RUNNING' ? 'bg-blue-400 animate-pulse' : log.status === 'WARNING' ? 'bg-secondary' : 'bg-primary'}`}></div>
 
-            <div className="z-20 flex items-center justify-center w-12 h-12 bg-slate-900 border-2 border-primary rounded-full shadow-[0_0_15px_rgba(0,240,255,0.3)]">
-                <item.icon size={20} className="text-primary" />
+            <div className="flex flex-wrap gap-2 md:gap-4 mb-1 text-slate-500 select-none">
+                <span>[{log.timestamp}]</span>
+                <span>[PID:{log.pid}]</span>
+                <span className={`flex items-center gap-1 font-bold ${getStatusColor(log.status)}`}>
+                    {getIcon(log.status)} {log.status}
+                </span>
             </div>
 
-            <div className="w-5/12">
-                <div className={`p-6 rounded-xl border border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-primary/50 transition-all group ${isLeft ? 'text-right' : 'text-left'}`}>
-                    <div className={`flex items-center gap-2 mb-2 ${isLeft ? 'justify-end' : 'justify-start'}`}>
-                        <span className="terminal-text text-primary text-sm font-bold">{item.year}</span>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">{item.type.toUpperCase()}</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
-                    <h4 className="text-sm text-secondary mb-3">{item.subtitle}</h4>
-                    <p className="text-slate-400 text-sm leading-relaxed">{item.description}</p>
-                </div>
+            <div className="text-slate-300 mb-1 group-hover:text-white transition-colors">
+                <span className="text-secondary">{`>>`}</span> {log.message}
+            </div>
+
+            <div className="text-slate-500 pl-6 border-l border-slate-800 ml-1">
+                {log.details}
             </div>
         </motion.div>
     );
@@ -74,29 +86,33 @@ const TimelineItem = ({ item, index }: { item: any; index: number }) => {
 
 const Timeline = () => {
     return (
-        <section className="py-20 relative overflow-hidden">
-            <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <span className="terminal-text text-primary text-sm tracking-widest mb-2 block">THE ARCHITECTURE</span>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Processing Pipeline</h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">
-                        A chronological visualization of the data inputs (education) and processing nodes (experience) that formed the current output.
-                    </p>
-                </motion.div>
+        <section id="experience" className="py-20 relative">
+            <div className="container mx-auto px-6 max-w-5xl">
+                <div className="glass-card bg-black/80 border border-slate-800 p-6 md:p-8 rounded-lg shadow-2xl">
+                    <div className="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
+                        <div className="flex items-center gap-2 text-slate-400">
+                            <Terminal size={18} />
+                            <span className="font-mono text-sm">/var/log/syslog</span>
+                        </div>
+                        <div className="flex gap-2">
+                            <span className="w-3 h-3 rounded-full bg-red-500/50"></span>
+                            <span className="w-3 h-3 rounded-full bg-yellow-500/50"></span>
+                            <span className="w-3 h-3 rounded-full bg-green-500/50"></span>
+                        </div>
+                    </div>
 
-                <div className="relative max-w-4xl mx-auto">
-                    {/* Vertical Line */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-slate-800 z-0"></div>
-
-                    <div className="flex flex-col">
-                        {timelineData.map((item, index) => (
-                            <TimelineItem key={index} item={item} index={index} />
+                    <div className="space-y-2 font-mono h-[500px] overflow-y-auto custom-scrollbar pr-2">
+                        {logData.map((log, index) => (
+                            <LogEntry key={index} log={log} index={index} />
                         ))}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            className="text-primary animate-pulse pt-4"
+                        >
+                            <span className="mr-2">_</span>
+                            <span className="text-slate-500">Waiting for new input...</span>
+                        </motion.div>
                     </div>
                 </div>
             </div>

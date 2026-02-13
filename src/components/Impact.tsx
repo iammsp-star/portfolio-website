@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Code, Brain, Terminal } from 'lucide-react';
+import { ExternalLink, Github, Terminal, X, FileCode, Folder } from 'lucide-react';
 
 const projects = [
     {
         id: 1,
         title: 'Weightless Data Visualizer',
+        filename: 'weightless_viz.py',
+        permissions: '-rwxr-xr-x',
+        size: '4.2KB',
+        date: 'Oct 24',
         description: 'A 3D interactive data visualization tool for caloric expenditure and workout volume.',
         tags: ['React', 'Three.js', 'D3.js', 'Firebase'],
         codeSnippet: `// 3D Force Graph Implementation
@@ -29,6 +33,10 @@ const Graph = ForceGraph3D()
     {
         id: 2,
         title: 'Master Calisthenics Elite',
+        filename: 'mce_ai_engine.py',
+        permissions: '-rwxr--r--',
+        size: '8.1MB',
+        date: 'Nov 12',
         description: 'AI-driven fitness platform serving 500+ users with personalized progression algorithms.',
         tags: ['Python', 'FastAPI', 'React', 'PostgreSQL'],
         codeSnippet: `def generate_progression(user_id: str):
@@ -51,103 +59,84 @@ const Graph = ForceGraph3D()
     }
 ];
 
-const ProjectCard = ({ project }: any) => {
-    const [viewMode, setViewMode] = useState<'code' | 'logic'>('code');
-
+const FileViewer = ({ project, onClose }: any) => {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="glass-card w-full border border-slate-800 bg-slate-900/40 relative group"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            onClick={onClose}
         >
-            <div className="flex flex-col lg:flex-row gap-8">
-                {/* Content Side */}
-                <div className="lg:w-1/2 space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">{project.title}</h3>
-                        <div className="flex gap-2">
-                            <a href={project.links.github} className="p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors">
-                                <Github size={18} />
-                            </a>
-                            <a href={project.links.demo} className="p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors">
-                                <ExternalLink size={18} />
-                            </a>
-                        </div>
+            <div
+                className="w-full max-w-4xl bg-black border border-primary/50 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {/* Window Header */}
+                <div className="bg-slate-900 border-b border-primary/30 p-2 flex justify-between items-center text-xs font-mono text-primary select-none">
+                    <div className="flex items-center gap-2">
+                        <Terminal size={14} />
+                        <span>vim {project.filename}</span>
                     </div>
+                    <button onClick={onClose} className="hover:text-red-500 transition-colors">
+                        <X size={16} />
+                    </button>
+                </div>
 
-                    <p className="text-slate-400 leading-relaxed">
-                        {project.description}
-                    </p>
+                {/* Content */}
+                <div className="p-6 overflow-y-auto font-mono text-sm leading-relaxed text-slate-300 custom-scrollbar">
+                    <div className="flex flex-col md:flex-row gap-8">
+                        <div className="md:w-1/2 space-y-4">
+                            <h2 className="text-2xl font-bold text-primary mb-2 line-through decoration-primary/30">
+                                {project.title}
+                            </h2>
+                            <p className="border-l-2 border-secondary pl-4 py-1 text-slate-400 italic">
+                                "{project.description}"
+                            </p>
 
-                    <div className="flex flex-wrap gap-2 pt-2">
-                        {project.tags.map((tag: string, idx: number) => (
-                            <span key={idx} className="text-xs font-mono text-secondary bg-secondary/10 px-2 py-1 rounded">
-                                {tag}
-                            </span>
-                        ))}
+                            <div className="space-y-2 mt-6">
+                                <h3 className="text-secondary font-bold text-xs uppercase tracking-widest">Execution Logic:</h3>
+                                <ul className="list-none space-y-2">
+                                    {project.logic.map((item: string, idx: number) => (
+                                        <li key={idx} className="flex gap-2 text-xs md:text-sm">
+                                            <span className="text-primary">{`>>`}</span>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <div className="flex gap-2 flex-wrap mt-4">
+                                {project.tags.map((tag: string, idx: number) => (
+                                    <span key={idx} className="px-2 py-1 bg-slate-800 text-xs text-secondary rounded border border-slate-700">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <div className="flex gap-4 pt-4">
+                                <a href={project.links.github} className="flex items-center gap-2 text-primary hover:text-white transition-colors text-xs border border-primary px-3 py-1 hover:bg-primary hover:text-black">
+                                    <Github size={14} /> GITHUB_REPO
+                                </a>
+                                <a href={project.links.demo} className="flex items-center gap-2 text-secondary hover:text-white transition-colors text-xs border border-secondary px-3 py-1 hover:bg-secondary hover:text-black">
+                                    <ExternalLink size={14} /> LIVE_DEMO
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="md:w-1/2 bg-slate-900/50 p-4 rounded border border-slate-700 overflow-x-auto">
+                            <h3 className="text-slate-500 text-xs mb-2">SOURCE_PREVIEW:</h3>
+                            <pre className="text-xs md:text-sm font-mono text-green-400 whitespace-pre-wrap">
+                                {project.codeSnippet}
+                            </pre>
+                        </div>
                     </div>
                 </div>
 
-                {/* Toggle & Display Side */}
-                <div className="lg:w-1/2">
-                    <div className="bg-black/50 rounded-xl overflow-hidden border border-slate-800">
-                        {/* Toggle Header */}
-                        <div className="flex border-b border-slate-800">
-                            <button
-                                onClick={() => setViewMode('code')}
-                                className={`flex-1 py-2 text-sm font-mono flex items-center justify-center gap-2 transition-colors ${viewMode === 'code' ? 'bg-slate-800 text-primary' : 'text-slate-500 hover:text-slate-300'
-                                    }`}
-                            >
-                                <Code size={14} /> View Code
-                            </button>
-                            <button
-                                onClick={() => setViewMode('logic')}
-                                className={`flex-1 py-2 text-sm font-mono flex items-center justify-center gap-2 transition-colors ${viewMode === 'logic' ? 'bg-slate-800 text-secondary' : 'text-slate-500 hover:text-slate-300'
-                                    }`}
-                            >
-                                <Brain size={14} /> View Logic
-                            </button>
-                        </div>
-
-                        {/* Content Area */}
-                        <div className="p-4 h-64 overflow-y-auto custom-scrollbar font-mono text-sm">
-                            <AnimatePresence mode="wait">
-                                {viewMode === 'code' ? (
-                                    <motion.div
-                                        key="code"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 10 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <pre className="text-slate-300">
-                                            <code>{project.codeSnippet}</code>
-                                        </pre>
-                                    </motion.div>
-                                ) : (
-                                    <motion.div
-                                        key="logic"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 10 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <ul className="space-y-3">
-                                            {project.logic.map((item: string, idx: number) => (
-                                                <li key={idx} className="flex gap-2 text-slate-300">
-                                                    <span className="text-secondary mt-1">
-                                                        <Terminal size={12} />
-                                                    </span>
-                                                    {item}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    </div>
+                {/* Status Bar */}
+                <div className="bg-slate-900 border-t border-primary/30 p-1 px-4 text-xs font-mono text-slate-500 flex justify-between">
+                    <span>-- INSERT --</span>
+                    <span>{project.size}</span>
                 </div>
             </div>
         </motion.div>
@@ -155,28 +144,72 @@ const ProjectCard = ({ project }: any) => {
 };
 
 const Impact = () => {
-    return (
-        <section id="projects" className="py-20 relative">
-            <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <span className="terminal-text text-primary text-sm tracking-widest mb-2 block">THE IMPACT</span>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">System Output</h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">
-                        Deployed solutions solving real-world problems through code and data architecture.
-                    </p>
-                </motion.div>
+    const [selectedProject, setSelectedProject] = useState<any>(null);
 
-                <div className="grid gap-12 max-w-5xl mx-auto">
-                    {projects.map(project => (
-                        <ProjectCard key={project.id} project={project} />
-                    ))}
+    return (
+        <section id="projects" className="py-20 relative font-mono">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="mb-8 border-b border-primary/30 pb-2 flex items-end justify-between">
+                    <div>
+                        <span className="text-slate-500 text-xs block mb-1">CURRENT_DIR</span>
+                        <h2 className="text-2xl text-white font-bold flex items-center gap-2">
+                            <Folder size={20} className="text-secondary" /> ~/projects/portfolio
+                        </h2>
+                    </div>
+                    <span className="text-xs text-primary animate-pulse">_cursor_active</span>
+                </div>
+
+                <div className="bg-black/40 border border-slate-800 p-2 rounded-lg font-mono text-sm md:text-base overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="text-slate-500 border-b border-slate-800">
+                                <th className="p-2 w-24">PERMISSIONS</th>
+                                <th className="p-2 w-16">SIZE</th>
+                                <th className="p-2 w-16">USER</th>
+                                <th className="p-2 w-20">DATE</th>
+                                <th className="p-2">NAME</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {projects.map((project, idx) => (
+                                <motion.tr
+                                    key={project.id}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    onClick={() => setSelectedProject(project)}
+                                    className="hover:bg-primary/10 cursor-pointer group transition-colors border-b border-slate-800/50 last:border-0"
+                                >
+                                    <td className="p-2 text-slate-400 group-hover:text-primary transition-colors">{project.permissions}</td>
+                                    <td className="p-2 text-slate-500">{project.size}</td>
+                                    <td className="p-2 text-secondary">founder</td>
+                                    <td className="p-2 text-slate-500">{project.date}</td>
+                                    <td className="p-2 text-white font-bold group-hover:text-primary flex items-center gap-2">
+                                        <FileCode size={16} className="text-slate-600 group-hover:text-primary" />
+                                        {project.filename}
+                                    </td>
+                                </motion.tr>
+                            ))}
+                            {/* Empty rows filler for aesthetics */}
+                            {[...Array(3)].map((_, i) => (
+                                <tr key={`empty-${i}`} className="text-slate-800 select-none">
+                                    <td className="p-2">----------</td>
+                                    <td className="p-2">----</td>
+                                    <td className="p-2">----</td>
+                                    <td className="p-2">------</td>
+                                    <td className="p-2">...</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            <AnimatePresence>
+                {selectedProject && (
+                    <FileViewer project={selectedProject} onClose={() => setSelectedProject(null)} />
+                )}
+            </AnimatePresence>
         </section>
     );
 };
