@@ -97,6 +97,18 @@ const Hero = () => {
                                     <span className="text-green-500">ACTIVE - OPTIMAL PERFORMANCE</span>
                                 </div>
                             </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 2.2 }}
+                                className="flex flex-col"
+                            >
+                                <span className="text-slate-500 text-xs mb-1">PROFILE_SUMMARY</span>
+                                <span className="text-slate-300 text-sm leading-relaxed">
+                                    Student at the School of Data Science and Business Intelligence, exploring data and uncovering insights. Enjoy learning new tools, excited to grow knowledge in data science and apply it to real-world challenges.
+                                </span>
+                            </motion.div>
                         </div>
 
                         {/* Right Column: Visualizer/Stats */}

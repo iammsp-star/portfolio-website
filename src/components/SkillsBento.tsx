@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Database, Layout, Server, Code, Cpu } from 'lucide-react';
+import { Database, Layout, Server, Code, Cpu, Brain } from 'lucide-react';
 
 const SkillCard = ({ title, skills, icon: Icon, delay }: any) => {
     return (
@@ -79,6 +79,13 @@ const SkillsBento = () => {
                         skills={['Python', 'JavaScript', 'TypeScript', 'C++', 'SQL', 'HTML/CSS']}
                         icon={Code}
                         delay={0.6}
+                    />
+
+                    <SkillCard
+                        title="AI & Workflow"
+                        skills={['Vibe Coding', 'Research', 'Prompt Engineering']}
+                        icon={Brain}
+                        delay={0.8}
                     />
                 </div>
             </div>

@@ -4,6 +4,15 @@ import { Github, ExternalLink, Database, BarChart3, Brain } from 'lucide-react';
 
 const projects = [
     {
+        title: 'Master Calisthenics Elite Management System',
+        description: 'Full-Stack Web Development & Business Automation for a fitness facility. Features include Supabase/Razorpay payment automation, WhatsApp API retention reminders, and a real-time Coach Dashboard.',
+        tech: ['Supabase', 'Razorpay', 'React', 'Node.js'],
+        metrics: 'Automation & SEO',
+        icon: <Database className="text-blue-400" size={24} />,
+        color: 'border-blue-500/50',
+        link: '#'
+    },
+    {
         title: 'Predictive Maintenance Engine',
         description: 'Deep learning model predicting machinery failure 48 hours in advance using IoT sensor data. Reduced downtime by 35%.',
         tech: ['Python', 'TensorFlow', 'PostgreSQL', 'FastAPI'],
