@@ -189,7 +189,7 @@ const Hero = () => {
                             INITIATE_CONTACT
                         </a>
                         <a
-                            href="/Manas_Puthanpura_CV.pdf"
+                            href={`${import.meta.env.BASE_URL}Manas_Puthanpura_CV.pdf`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="px-6 py-3 border border-slate-600 text-slate-300 hover:border-slate-400 hover:text-slate-400 hover:bg-slate-900 transition-all flex items-center gap-2 text-sm"
