@@ -3,11 +3,11 @@ import { Terminal, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 
 const logData = [
     {
-        timestamp: '2023-05-15 09:00:00',
+        timestamp: '2024-08-01 09:00:00',
         pid: 'edu_init',
-        status: 'SUCCESS',
-        message: 'Completed academic module: B.Tech in Data Science.',
-        details: 'Specialized in Machine Learning, Deep Learning, and Big Data Analytics. Neural pathways established.',
+        status: 'RUNNING',
+        message: 'Pursuing academic module: BSc in Data Science (1st Year).',
+        details: 'Specializing in Machine Learning, Deep Learning, and Analytics. Neural pathways initializing.',
         type: 'education'
     },
     {
