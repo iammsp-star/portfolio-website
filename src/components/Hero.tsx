@@ -128,10 +128,10 @@ const Hero = () => {
                                     </div>
                                     <div className="w-full bg-slate-800 h-2 rounded overflow-hidden">
                                         <motion.div
-                                            initial={{ width: 0 }}
-                                            animate={{ width: "88%" }}
+                                            initial={{ scaleX: 0 }}
+                                            animate={{ scaleX: 0.88 }}
                                             transition={{ duration: 2, delay: 2.5 }}
-                                            className="bg-primary h-full"
+                                            className="bg-primary h-full origin-left"
                                         ></motion.div>
                                     </div>
                                 </div>
@@ -142,10 +142,10 @@ const Hero = () => {
                                     </div>
                                     <div className="w-full bg-slate-800 h-2 rounded overflow-hidden">
                                         <motion.div
-                                            initial={{ width: 0 }}
-                                            animate={{ width: "94%" }}
+                                            initial={{ scaleX: 0 }}
+                                            animate={{ scaleX: 0.94 }}
                                             transition={{ duration: 2, delay: 2.7 }}
-                                            className="bg-secondary h-full"
+                                            className="bg-secondary h-full origin-left"
                                         ></motion.div>
                                     </div>
                                 </div>
@@ -156,10 +156,10 @@ const Hero = () => {
                                     </div>
                                     <div className="w-full bg-slate-800 h-2 rounded overflow-hidden">
                                         <motion.div
-                                            initial={{ width: 0 }}
-                                            animate={{ width: "45%" }}
+                                            initial={{ scaleX: 0 }}
+                                            animate={{ scaleX: 0.45 }}
                                             transition={{ duration: 2, delay: 2.9 }}
-                                            className="bg-red-500 h-full"
+                                            className="bg-red-500 h-full origin-left"
                                         ></motion.div>
                                     </div>
                                 </div>

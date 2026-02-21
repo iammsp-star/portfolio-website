@@ -74,7 +74,7 @@ const TerminalLayout = ({ children }: { children: React.ReactNode }) => {
 
             {/* Main Content Area */}
             <main className="flex-grow container mx-auto px-4 py-8 relative">
-                <div className="border border-gray-800 bg-black/40 p-1 md:p-6 rounded-lg shadow-2xl min-h-[60vh] backdrop-blur-sm border-glow">
+                <div className="border border-gray-800 bg-black/60 p-1 md:p-6 rounded-lg shadow-2xl min-h-[60vh] border-glow">
                     {children}
                 </div>
             </main>
