@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 import { useState } from 'react';
 
@@ -20,18 +19,6 @@ const Contact = () => {
     return (
         <section id="contact" className="py-20 relative font-mono text-slate-300">
             <div className="container mx-auto px-6 max-w-4xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-16 border-b border-primary/30 pb-4"
-                >
-                    <span className="text-primary text-sm tracking-widest mb-2 block">{'<COMMUNICATION_LINK>'}</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">ESTABLISH_CONNECTION</h2>
-                    <p className="text-slate-500 max-w-2xl">
-                        // Initiate handshake protocol. Send encrypted transmission regarding collaboration or inquiries.
-                    </p>
-                </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     {/* Contact Info */}
