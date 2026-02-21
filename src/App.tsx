@@ -14,7 +14,7 @@ function App() {
   }
 
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-black text-primary font-mono selection:bg-primary selection:text-black overflow-x-hidden">
         <div className="fixed inset-0 pointer-events-none scanline z-50"></div>
         <TerminalLayout>
