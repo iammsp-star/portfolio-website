@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Terminal, Cpu, Shield, Activity } from 'lucide-react';
+import { ArrowDown, Terminal, Cpu, Shield, Activity, FileText, Download } from 'lucide-react';
 
 const TypewriterText = ({ text, delay = 0 }: { text: string, delay?: number }) => {
     const [displayedText, setDisplayedText] = useState('');
@@ -173,7 +173,7 @@ const Hero = () => {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-start">
+                    <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-start flex-wrap">
                         <a
                             href="#projects"
                             className="px-6 py-3 border border-primary text-primary hover:bg-primary hover:text-black transition-all flex items-center gap-2 group text-sm"
@@ -187,6 +187,23 @@ const Hero = () => {
                         >
                             <Cpu size={16} />
                             INITIATE_CONTACT
+                        </a>
+                        <a
+                            href="/Manas_Puthanpura_CV.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-6 py-3 border border-slate-600 text-slate-300 hover:border-slate-400 hover:text-slate-400 hover:bg-slate-900 transition-all flex items-center gap-2 text-sm"
+                        >
+                            <FileText size={16} />
+                            VIEW_CV
+                        </a>
+                        <a
+                            href="/Manas_Puthanpura_CV.pdf"
+                            download="Manas_Puthanpura_CV.pdf"
+                            className="px-6 py-3 border border-slate-600 text-slate-300 hover:border-slate-400 hover:text-slate-400 hover:bg-slate-900 transition-all flex items-center gap-2 text-sm"
+                        >
+                            <Download size={16} />
+                            DOWNLOAD_CV
                         </a>
                     </div>
                 </div>
