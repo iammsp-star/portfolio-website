@@ -28,8 +28,8 @@ const Contact = () => {
                                 <span className="text-primary">{'>'}</span> NODE_LOCATION
                             </h3>
                             <div className="pl-6 border-l border-primary/20 ml-2">
-                                <p className="text-slate-400">Bangalore, India (IST)</p>
-                                <p className="text-xs text-slate-600 mt-1">lat: 12.9716, long: 77.5946</p>
+                                <p className="text-slate-400">Mumbai, India (IST)</p>
+                                <p className="text-xs text-slate-600 mt-1">lat: 19.0760, long: 72.8777</p>
                             </div>
                         </div>
 
@@ -50,14 +50,11 @@ const Contact = () => {
                                 <span className="text-primary">{'>'}</span> NETWORK_NODES
                             </h3>
                             <div className="pl-6 border-l border-primary/20 ml-2 flex flex-col gap-2">
-                                <a href="#" className="text-slate-400 hover:text-primary transition-colors font-mono text-sm">
+                                <a href="https://www.linkedin.com/in/manas-puthanpura-5b06b0377/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors font-mono text-sm">
                                     [LINKEDIN_PROFILE]
                                 </a>
-                                <a href="#" className="text-slate-400 hover:text-primary transition-colors font-mono text-sm">
+                                <a href="https://github.com/iammsp-star" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors font-mono text-sm">
                                     [GITHUB_REPO]
-                                </a>
-                                <a href="#" className="text-slate-400 hover:text-primary transition-colors font-mono text-sm">
-                                    [TWITTER_FEED]
                                 </a>
                             </div>
                         </div>
