@@ -38,10 +38,13 @@ const Hero = () => {
                     {/* Header */}
                     <div className="border-b-2 border-primary/20 pb-4 mb-8 flex justify-between items-end">
                         <div className="flex flex-col">
-                            <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter mb-2">
-                                SYSTEM_DIAGNOSTIC
+                            <span className="text-primary text-sm font-mono tracking-widest mb-1">// _system_ready ■</span>
+                            <span className="text-slate-400 font-mono tracking-widest mb-4">Data Scientist & ML Engineer</span>
+
+                            <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-2 leading-tight">
+                                <span className="text-white">Manas </span>
+                                <span className="text-[#a5e887]">Puthanpura</span>
                             </h1>
-                            <span className="text-xs text-secondary animate-pulse">Running analysis...</span>
                         </div>
                         <div className="text-right hidden md:block text-slate-500 text-xs">
                             <p>REF_ID: 0x882A</p>
@@ -57,7 +60,7 @@ const Hero = () => {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.5 }}
-                                className="flex flex-col"
+                                className="flex flex-col hidden"
                             >
                                 <span className="text-slate-500 text-xs mb-1">SUBJECT_NAME</span>
                                 <span className="text-white text-xl font-bold">MANAS PUTHANPURA</span>
