@@ -182,13 +182,6 @@ const Hero = () => {
                             EXECUTE_PROJECTS_VIEW
                         </a>
                         <a
-                            href="#contact"
-                            className="px-6 py-3 border border-slate-600 text-slate-300 hover:border-secondary hover:text-secondary hover:bg-slate-900 transition-all flex items-center gap-2 text-sm"
-                        >
-                            <Cpu size={16} />
-                            INITIATE_CONTACT
-                        </a>
-                        <a
                             href={`${import.meta.env.BASE_URL}Manas_Puthanpura_CV.pdf`}
                             target="_blank"
                             rel="noopener noreferrer"
