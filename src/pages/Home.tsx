@@ -3,7 +3,6 @@ import ScrollProgress from '../components/ScrollProgress';
 import Timeline from '../components/Timeline';
 import SkillsBento from '../components/SkillsBento';
 import Impact from '../components/Impact';
-import Contact from '../components/Contact';
 
 export const Home = () => {
   return (
@@ -15,7 +14,6 @@ export const Home = () => {
         <Timeline />
         <SkillsBento />
         <Impact />
-        <Contact />
       </main>
     </div>
   );

@@ -42,7 +42,6 @@ const CommandPrompt: React.FC = () => {
                             <div className="flex justify-between"><span className="text-secondary">projects</span> <span className="text-slate-400">Navigate to Projects directory</span></div>
                             <div className="flex justify-between"><span className="text-secondary">skills</span> <span className="text-slate-400">Show loaded modules</span></div>
                             <div className="flex justify-between"><span className="text-secondary">exp</span> <span className="text-slate-400">Show experience logs</span></div>
-                            <div className="flex justify-between"><span className="text-secondary">contact</span> <span className="text-slate-400">Initiate contact protocol</span></div>
                             <div className="flex justify-between"><span className="text-secondary">whoami</span> <span className="text-slate-400">Display current user</span></div>
                         </div>
                     )
@@ -83,14 +82,6 @@ const CommandPrompt: React.FC = () => {
                 setTimeout(() => {
                     const expSection = document.getElementById('experience');
                     if (expSection) expSection.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-                break;
-            case 'contact':
-                response = { type: 'success', content: 'Opening Contact Channel...' };
-                navigate('/');
-                setTimeout(() => {
-                    const contactSection = document.getElementById('contact');
-                    if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
                 break;
             case 'whoami':
