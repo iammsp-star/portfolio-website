@@ -59,8 +59,8 @@ const LiveStats = () => {
                     {/* Contribution Graph (Mock) */}
                     <div>
                         <h4 className="terminal-text text-sm font-bold text-primary mb-4">CONTRIBUTIONS</h4>
-                        <div className="flex gap-1 flex-wrap w-full max-w-[200px]">
-                            {Array.from({ length: 48 }).map((_, i) => (
+                        <div className="grid grid-rows-7 grid-flow-col gap-1 w-fit">
+                            {Array.from({ length: 140 }).map((_, i) => (
                                 <motion.div
                                     key={i}
                                     initial={{ opacity: 0 }}

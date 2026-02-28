@@ -4,7 +4,6 @@ import Timeline from '../components/Timeline';
 import SkillsBento from '../components/SkillsBento';
 import Impact from '../components/Impact';
 import Contact from '../components/Contact';
-import LiveStats from '../components/LiveStats';
 
 export const Home = () => {
   return (
@@ -18,8 +17,6 @@ export const Home = () => {
         <Impact />
         <Contact />
       </main>
-
-      <LiveStats />
     </div>
   );
 };
