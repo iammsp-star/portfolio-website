@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Terminal, Cpu, Shield, Activity, FileText } from 'lucide-react';
+import { ArrowDown, Terminal, Shield, Activity, FileText } from 'lucide-react';
 
 const TypewriterText = ({ text, delay = 0 }: { text: string, delay?: number }) => {
     const [displayedText, setDisplayedText] = useState('');

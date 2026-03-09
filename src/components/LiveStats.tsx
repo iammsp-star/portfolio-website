@@ -67,7 +67,7 @@ const LiveStats = () => {
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: i * 0.01 }}
                                     className={`w-2 h-2 rounded-sm ${Math.random() > 0.7 ? 'bg-primary' :
-                                            Math.random() > 0.4 ? 'bg-primary/50' : 'bg-slate-800'
+                                        Math.random() > 0.4 ? 'bg-primary/50' : 'bg-slate-800'
                                         }`}
                                 />
                             ))}
