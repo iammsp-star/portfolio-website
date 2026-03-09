@@ -142,6 +142,103 @@ def generate_progression(user_id: str) -> dict:
             github: 'https://github.com/iammsp-star/portfolio-website',
         },
     },
+    {
+        id: 4,
+        title: 'Mental Health RAG',
+        filename: 'mental_health_rag.py',
+        lang: 'python',
+        permissions: '-rwxr-xr-x',
+        permColors: ['text-primary', 'text-slate-500', 'text-slate-500'],
+        size: '1.2M',
+        date: 'Feb 10',
+        description:
+            'A Retrieval-Augmented Generation (RAG) system focused on mental health resources. Allows conversational queries against a vectorized knowledge base of psychological and wellness literature.',
+        tags: ['Python', 'LLM', 'RAG', 'VectorDB', 'OpenAI'],
+        codeSnippet: `# Query processing with RAG pipeline
+from langchain.chains import RetrievalQA
+from langchain.vectorstores import Chroma
+from langchain.embeddings import HuggingFaceEmbeddings
+
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+vectorstore = Chroma(persist_directory="./db", embedding_function=embeddings)
+retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
+
+qa_chain = RetrievalQA.from_chain_type(
+    llm=chat_model,
+    chain_type="stuff",
+    retriever=retriever,
+    return_source_documents=True
+)
+
+def handle_query(user_input: str):
+    response = qa_chain({"query": user_input})
+    docs = response['source_documents']
+    
+    # Return answer with citations
+    return format_response_with_citations(
+        answer=response['result'], 
+        sources=[doc.metadata['source'] for doc in docs]
+    )`,
+        logic: [
+            'Embeds domain-specific medical documents via HuggingFace transformers.',
+            'Stores vectors in a persistent ChromaDB instance for fast retrieval.',
+            'Augments user queries with top-K relevant context passages.',
+            'Passes augmented context to an LLM to generate cited answers.',
+        ],
+        projectLinks: {
+            demo: '#',
+            github: 'https://github.com/iammsp-star/Mental-Health-RAG',
+        },
+    },
+    {
+        id: 5,
+        title: 'Control Center Guide',
+        filename: 'control_center.html',
+        lang: 'js',
+        permissions: '-rw-r--r--',
+        permColors: ['text-slate-400', 'text-slate-500', 'text-slate-500'],
+        size: '480K',
+        date: 'Jan 05',
+        description:
+            '"Control Center: The Beginner’s Guide to Controller Gaming" — an interactive web guide designed to help newcomers understand and master game controller mechanics, layouts, and input mapping.',
+        tags: ['HTML', 'CSS', 'JavaScript', 'Web'],
+        codeSnippet: `// Interactive controller input visualizer
+const gamepads = navigator.getGamepads();
+const display = document.getElementById("button-state");
+
+function pollGamepads() {
+  const gp = navigator.getGamepads()[0];
+  if (!gp) {
+    requestAnimationFrame(pollGamepads);
+    return;
+  }
+
+  // Map face buttons
+  const isA = gp.buttons[0].pressed;
+  const isB = gp.buttons[1].pressed;
+  const isX = gp.buttons[2].pressed;
+  const isY = gp.buttons[3].pressed;
+
+  // Render visual feedback for tutorials
+  updateButtonUI('A', isA, gp.buttons[0].value);
+  updateButtonUI('B', isB, gp.buttons[1].value);
+  
+  if (isA) showTutorialTooltip("Jump / Accept");
+  if (isB) showTutorialTooltip("Cancel / Crouch");
+
+  requestAnimationFrame(pollGamepads);
+}`,
+        logic: [
+            'Uses standard HTML/CSS for a lightweight, accessible web structure.',
+            'Integrates JavaScript Gamepad API to read live controller inputs.',
+            'Maps physical button presses to on-screen interactive diagrams.',
+            'Provides real-time feedback and tooltips for beginners.',
+        ],
+        projectLinks: {
+            demo: 'https://iammsp-star.github.io/Control-Center-Guide/',
+            github: 'https://github.com/iammsp-star/Control-Center-Guide',
+        },
+    },
 ];
 
 // ─── Tiny inline syntax highlighter ──────────────────────────────────────────
