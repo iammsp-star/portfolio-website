@@ -22,7 +22,7 @@ interface Repo {
 const projects = [
     {
         id: 1,
-        title: 'Master Calisthenics Elite',
+        title: 'Master Calisthenics India',
         description:
             "India's first AI-driven calisthenics coaching platform. Built personalised 4-week training plans with a Random Forest model, automated check-ins, and WhatsApp follow-ups. Scaled to 500+ active users.",
         tags: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'AI/ML'],

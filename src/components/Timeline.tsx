@@ -10,19 +10,12 @@ const logData = [
         details: 'Specializing in Machine Learning, Deep Learning, and Analytics. Neural pathways initializing.',
         type: 'education'
     },
-    {
-        timestamp: '2024-02-10 14:30:22',
-        pid: 'r&d_core',
-        status: 'SUCCESS',
-        message: 'Executed Research & Development protocols.',
-        details: 'Published paper on "AI in Healthcare". Developed 3 end-to-end ML production systems for deployment.',
-        type: 'tech'
-    },
+
     {
         timestamp: '2025-01-01 00:00:01',
         pid: 'startup_launch',
         status: 'WARNING',
-        message: 'Initialized Master Calisthenics Elite platform. High load detected.',
+        message: 'Initialized Master Calisthenics India platform. High load detected.',
         details: 'Launched India’s first AI-driven Calisthenics platform. Scaled to 500+ users in 3 months. System stability: 99.9%.',
         type: 'founder'
     },
