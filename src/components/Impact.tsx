@@ -1,7 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, X, ArrowUpRight, Zap, ArrowRight } from 'lucide-react';
+import { ExternalLink, Github, X, ArrowUpRight, Zap, ArrowRight, FolderOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import TerminalRepoList from './TerminalRepoList';
+
+interface Repo {
+    id: number;
+    name: string;
+    description: string;
+    html_url: string;
+    homepage: string;
+    stargazers_count: number;
+    forks_count: number;
+    language: string;
+    updated_at: string;
+    size: number;
+}
 
 // ─── Project Data ─────────────────────────────────────────────────────────────
 
@@ -271,31 +285,54 @@ const ProjectCard = ({
 
 const Impact = () => {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [repos, setRepos] = useState<Repo[]>([]);
+    const [loadingRepos, setLoadingRepos] = useState(true);
+
+    useEffect(() => {
+        const fetchRepos = async () => {
+            try {
+                const response = await fetch('https://api.github.com/users/iammsp-star/repos?sort=updated&per_page=100');
+                const data = await response.json();
+                setRepos(data);
+                setLoadingRepos(false);
+            } catch (error) {
+                console.error('Error fetching repos:', error);
+                setLoadingRepos(false);
+            }
+        };
+
+        fetchRepos();
+    }, []);
 
     return (
         <section id="projects" className="py-20 font-mono">
             <div className="container mx-auto px-4 md:px-6 max-w-4xl">
 
-                {/* Header */}
+                {/* Terminal Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -8 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mb-10"
+                    className="mb-12"
                 >
-                    <span className="text-primary text-xs tracking-widest font-mono uppercase mb-2 block">
-            // projects
-                    </span>
-                    <h2 className="text-2xl md:text-3xl font-bold text-white">
-                        Things I've built
-                    </h2>
-                    <p className="text-slate-500 text-sm mt-2 max-w-md">
+                    <div className="flex flex-col gap-2 mb-6">
+                        <span className="text-primary text-[10px] uppercase tracking-[0.2em] font-mono">
+                            // system_inventory
+                        </span>
+                        <div className="flex items-center gap-3">
+                            <FolderOpen size={24} className="text-amber-500/80" />
+                            <h2 className="text-2xl md:text-3xl font-bold text-white font-mono">
+                                ~/projects/portfolio <span className="animate-pulse text-primary italic font-light ml-2">_cursor_active</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <p className="text-slate-500 text-sm max-w-md font-mono">
                         A mix of real products, research, and side projects — click any card to see more.
                     </p>
                 </motion.div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
                     {projects.map((project) => (
                         <ProjectCard
                             key={project.id}
@@ -304,6 +341,38 @@ const Impact = () => {
                         />
                     ))}
                 </div>
+
+                {/* Full Repository List */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="space-y-6"
+                >
+                    <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest font-mono">
+                            Recent Repositories
+                        </h3>
+                        {repos.length > 0 && (
+                            <span className="text-[10px] text-slate-600 font-mono">
+                                {repos.length} nodes detected
+                            </span>
+                        )}
+                    </div>
+
+                    {loadingRepos ? (
+                        <div className="flex flex-col items-center justify-center py-12 gap-3">
+                            <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                            <span className="text-[10px] text-primary/60 animate-pulse font-mono tracking-widest uppercase">Initializing_System...</span>
+                        </div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <div className="min-w-[500px]">
+                                <TerminalRepoList repos={repos.slice(0, 8)} />
+                            </div>
+                        </div>
+                    )}
+                </motion.div>
 
                 {/* Footer note */}
                 <motion.div
