@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, X, ArrowUpRight, Zap } from 'lucide-react';
+import { ExternalLink, Github, X, ArrowUpRight, Zap, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // ─── Project Data ─────────────────────────────────────────────────────────────
 
@@ -305,22 +306,32 @@ const Impact = () => {
                 </div>
 
                 {/* Footer note */}
-                <motion.p
+                <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    className="text-center text-xs text-slate-700 mt-8 font-mono"
+                    className="flex flex-col items-center gap-6 mt-16"
                 >
-                    more coming soon —{' '}
-                    <a
-                        href="https://github.com/iammsp-star"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-slate-600 hover:text-primary transition-colors"
+                    <Link
+                        to="/projects"
+                        className="group flex items-center gap-2 px-6 py-3 bg-primary/5 hover:bg-primary/10 border border-primary/20 hover:border-primary/40 rounded-full text-primary transition-all duration-300"
                     >
-                        github.com/iammsp-star
-                    </a>
-                </motion.p>
+                        <span className="text-sm font-mono tracking-wide">View full project directory</span>
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                    </Link>
+
+                    <p className="text-xs text-slate-700 font-mono">
+                        more coming soon —{' '}
+                        <a
+                            href="https://github.com/iammsp-star"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-slate-600 hover:text-primary transition-colors"
+                        >
+                            github.com/iammsp-star
+                        </a>
+                    </p>
+                </motion.div>
             </div>
 
             <AnimatePresence>
