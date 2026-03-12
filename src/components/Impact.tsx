@@ -42,7 +42,7 @@ const projects = [
         tags: ['React', 'TypeScript', 'Vite', 'Framer Motion', 'Tailwind'],
         status: 'live',
         links: {
-            demo: 'https://mastercalisthenicsindia.com',
+            demo: 'https://iammsp-star.github.io/portfolio-website/',
             github: 'https://github.com/iammsp-star/portfolio-website',
         },
         year: '2025',
