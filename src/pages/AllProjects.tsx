@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Github, ExternalLink, ArrowLeft, Star, GitFork, Calendar } from 'lucide-react';
+import { ArrowLeft, FolderOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import TerminalRepoList from '../components/TerminalRepoList';
 
 interface Repo {
     id: number;
@@ -13,6 +13,7 @@ interface Repo {
     forks_count: number;
     language: string;
     updated_at: string;
+    size: number;
 }
 
 export const AllProjects = () => {
@@ -35,111 +36,46 @@ export const AllProjects = () => {
         fetchRepos();
     }, []);
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0 }
-    };
-
     return (
-        <div className="min-h-screen relative z-10 py-20 px-6">
+        <div className="min-h-screen relative z-10 py-12 px-6 font-mono">
             <div className="max-w-7xl mx-auto">
                 <Link to="/" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-12 group">
-                    <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-                    Back to Home
+                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                    <span className="text-sm">cd ..</span>
                 </Link>
 
-                <motion.h1
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-4xl md:text-5xl font-bold mb-4"
-                >
-                    <span className="text-primary">/projects</span> directory
-                </motion.h1>
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                    className="text-slate-400 max-w-2xl mb-16 text-lg"
-                >
-                    A complete collection of my open source work, experiments, and contributions.
-                    fetched directly from GitHub.
-                </motion.p>
+                <div className="mb-12">
+                    <div className="flex flex-col gap-2 mb-8">
+                        <span className="text-slate-600 text-[10px] uppercase tracking-[0.2em]">Current_Dir</span>
+                        <div className="flex items-center gap-3">
+                            <FolderOpen size={24} className="text-amber-500/80" />
+                            <h1 className="text-2xl md:text-3xl font-bold text-slate-200">
+                                ~/projects/portfolio <span className="animate-pulse text-primary italic font-light ml-2">_cursor_active</span>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <p className="text-slate-500 max-w-2xl text-sm leading-relaxed mb-12">
+                        A complete inventory of system repositories and experimental modules, 
+                        synchronized with remote GitHub services.
+                    </p>
+                </div>
 
                 {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                    <div className="flex flex-col items-center justify-center py-20 gap-4">
+                        <div className="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                        <span className="text-xs text-primary/60 animate-pulse font-mono">FETCHING_REMOTE_DATA...</span>
                     </div>
                 ) : (
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                    >
-                        {repos.map((repo) => (
-                            <motion.div
-                                key={repo.id}
-                                variants={itemVariants}
-                                className="glass-card group relative p-6 flex flex-col h-full border border-slate-700/50 hover:border-primary/50 transition-colors"
-                            >
-                                <div className="flex justify-between items-start mb-4">
-                                    <Github className="text-secondary" size={24} />
-                                    <div className="flex gap-3">
-                                        {repo.homepage && (
-                                            <a href={repo.homepage} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors">
-                                                <ExternalLink size={20} />
-                                            </a>
-                                        )}
-                                        <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
-                                            <Github size={20} />
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors truncate">
-                                    {repo.name}
-                                </h3>
-
-                                <p className="text-slate-400 mb-6 text-sm leading-relaxed flex-grow line-clamp-3">
-                                    {repo.description || 'No description available'}
-                                </p>
-
-                                <div className="space-y-4 mt-auto">
-                                    <div className="flex flex-wrap gap-4 text-xs text-slate-500 font-mono">
-                                        {repo.language && (
-                                            <span className="flex items-center gap-1.5 text-slate-300">
-                                                <span className="w-2 h-2 rounded-full bg-primary/80"></span>
-                                                {repo.language}
-                                            </span>
-                                        )}
-                                        <span className="flex items-center gap-1">
-                                            <Star size={14} />
-                                            {repo.stargazers_count}
-                                        </span>
-                                        <span className="flex items-center gap-1">
-                                            <GitFork size={14} />
-                                            {repo.forks_count}
-                                        </span>
-                                    </div>
-                                    <div className="pt-4 border-t border-slate-700/30 text-xs text-slate-500 flex items-center gap-2">
-                                        <Calendar size={14} />
-                                        Updated {new Date(repo.updated_at).toLocaleDateString()}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
+                    <TerminalRepoList repos={repos} />
                 )}
+
+                {/* Footer decorations */}
+                <div className="mt-8 flex justify-between items-center text-[10px] text-slate-700 uppercase tracking-widest border-t border-slate-900 pt-4">
+                    <span>Total Nodes: {repos.length}</span>
+                    <span>Status: Optimized</span>
+                    <span>Last Sync: {new Date().toLocaleTimeString()}</span>
+                </div>
             </div>
         </div>
     );
