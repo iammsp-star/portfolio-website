@@ -45,8 +45,8 @@ const CommandPrompt: React.FC = () => {
             case 'github':
                 window.open('https://github.com/iammsp-star', '_blank');
                 break;
-            case 'contact':
-                window.open('mailto:manassubhash2007@gmail.com');
+            case 'linkedin':
+                window.open('https://www.linkedin.com/in/manas-puthanpura-5b06b0377/', '_blank');
                 break;
             default:
                 // could show a temporary error message in a real terminal
@@ -64,7 +64,7 @@ const CommandPrompt: React.FC = () => {
 
     return (
         <div 
-            className="sticky bottom-0 w-full bg-terminal-dark/95 border-t border-terminal-border/50 text-primary font-mono text-sm z-50 backdrop-blur-sm shadow-[0_-5px_15px_rgba(0,255,0,0.05)] cursor-text"
+            className="sticky top-0 w-full bg-terminal-dark/95 border-b border-terminal-border/50 text-primary font-mono text-sm z-50 shadow-[0_5px_15px_rgba(0,255,0,0.05)] cursor-text"
             onClick={handleClick}
         >
             {/* Mobile-optimized horizontal scroll menu */}
@@ -73,7 +73,7 @@ const CommandPrompt: React.FC = () => {
                 <button onClick={() => handleCommand('projects')} className="flex-1 px-4 py-2 hover:bg-primary/20 hover:text-white transition-colors">[ PROJECTS ]</button>
                 <button onClick={() => handleCommand('skills')} className="flex-1 px-4 py-2 hover:bg-primary/20 hover:text-white transition-colors">[ MODULES ]</button>
                 <button onClick={() => handleCommand('github')} className="flex-1 px-4 py-2 hover:bg-primary/20 hover:text-white transition-colors">[ GITHUB ]</button>
-                <button onClick={() => handleCommand('contact')} className="flex-1 px-4 py-2 hover:bg-primary/20 hover:text-white transition-colors">[ CONTACT ]</button>
+                <button onClick={() => handleCommand('linkedin')} className="flex-1 px-4 py-2 hover:bg-primary/20 hover:text-white transition-colors">[ LINKEDIN ]</button>
             </div>
 
             <div className="p-2 sm:p-3 flex flex-wrap sm:flex-nowrap items-center gap-1 sm:gap-2">
