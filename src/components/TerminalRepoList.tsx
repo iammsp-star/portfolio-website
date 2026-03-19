@@ -13,10 +13,10 @@ interface Repo {
 const TerminalRepoList = ({ repos }: { repos: Repo[] }) => {
     return (
         <div className="w-full font-mono text-sm">
-            <div className="grid grid-cols-12 text-slate-500 text-xs border-b border-terminal-border/20 pb-2 mb-2">
-                <div className="col-span-4">NODE_REF</div>
+            <div className="grid grid-cols-12 text-slate-500 text-xs border-b border-terminal-border/20 pb-2 mb-2 font-bold uppercase">
+                <div className="col-span-4">REPOSITORY</div>
                 <div className="col-span-2 hidden sm:block">SIZE</div>
-                <div className="col-span-2">LANG</div>
+                <div className="col-span-2">LANGUAGE</div>
                 <div className="col-span-2 text-right">STARS</div>
                 <div className="col-span-2 sm:col-span-2 text-right">METRICS</div>
             </div>

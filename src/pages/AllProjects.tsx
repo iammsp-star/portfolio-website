@@ -47,11 +47,11 @@ export const AllProjects = () => {
 
                 <div className="mb-12 border-l border-terminal-border/40 pl-4">
                     <div className="flex items-center gap-2 mb-2">
-                        <span className="text-secondary">msp-star@OS:~$</span>
-                        <span className="text-white">ls -l /var/github/repositories</span>
+                        <span className="text-secondary">&gt;</span>
+                        <span className="text-white text-xl font-bold uppercase tracking-widest">[ ALL GITHUB REPOSITORIES ]</span>
                     </div>
                     <p className="text-slate-400 max-w-2xl text-sm leading-relaxed mt-4">
-                        SYSTEM_INFO: Complete inventory of all tracked neural nodes and algorithms synchronized with the remote origin.
+                        A complete inventory of my open-source projects, experiments, and code repositories hosted on GitHub.
                     </p>
                 </div>
 

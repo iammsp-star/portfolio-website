@@ -1,157 +1,88 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-const TypewriterText = ({ text, delay = 0 }: { text: string, delay?: number }) => {
-    const [displayedText, setDisplayedText] = useState("");
-
-    React.useEffect(() => {
-        let i = 0;
-        const timer = setTimeout(() => {
-            const interval = setInterval(() => {
-                setDisplayedText(text.substring(0, i + 1));
-                i++;
-                if (i >= text.length) clearInterval(interval);
-            }, 30);
-            return () => clearInterval(interval);
-        }, delay);
-        return () => clearTimeout(timer);
-    }, [text, delay]);
-
-    return <span>{displayedText}</span>;
-};
-
-const timelineData = [
-    {
-        id: 'central_hub',
-        status: 'ENROLLED',
-        joined: 'JULY 2025',
-        modules: ['DEEP_LEARNING', 'PREDICTIVE_ANALYTICS', 'STATISTICAL_INFERENCE'],
-        title: '[SDSBI] SCHOOL OF DATA SCIENCE AND BUSINESS INTELLIGENCE',
-        logs: [
-            "Initializing academic core...",
-            "Loading mathematical foundation arrays [OK]",
-            "Establishing data pipelines... [OK]"
-        ]
-    },
-    {
-        id: 'independent',
-        status: 'ACTIVE',
-        joined: 'SEPT 2024',
-        modules: ['AI_WRAPPERS', 'FULL_STACK_DEV', 'LLM_INTEGRATION'],
-        title: 'FREELANCE SOFTWARE DEVELOPER',
-        logs: [
-            "Bypassing standard employment protocols...",
-            "Injecting custom client solutions...",
-            "Deploying scalable architectures [OK]"
-        ]
-    },
-    {
-        id: 'xcore_fitness',
-        status: 'ARCHIVED',
-        joined: '2023-2024',
-        modules: ['PHYSICAL_TRAINING', 'DATA_DRIVEN_COACHING', 'ATHLETE_RECORDS'],
-        title: 'FITNESS INSTRUCTOR',
-        logs: [
-            "Logging physical stress tests...",
-            "Compiling athlete progression metrics...",
-            "Connection terminated."
-        ]
-    }
-];
-
-const TimelineExpandedView = ({ item }: { item: typeof timelineData[0] }) => {
-    return (
-        <motion.div 
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="pl-4 sm:pl-8 border-l border-terminal-border/40 mt-2 mb-4 space-y-2 overflow-hidden text-sm"
-        >
-            <div className="text-secondary tracking-widest uppercase pb-2">{item.title}</div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-slate-400">
-                <span>STATUS: <span className={item.status === 'ENROLLED' || item.status === 'ACTIVE' ? 'text-primary' : 'text-slate-500'}>{item.status}</span></span>
-                <span>JOINED: {item.joined}</span>
-            </div>
-            <div className="text-slate-400 pt-1">
-                MODULES: <span className="text-accent">{item.modules.join(', ')}</span>
-            </div>
-            <div className="mt-4 p-2 bg-terminal-dim/30 border border-terminal-border/20 rounded-sm font-mono text-xs text-primary/70">
-                {item.logs.map((log, i) => (
-                    <motion.div 
-                        initial={{ opacity: 0, x: -10 }} 
-                        whileInView={{ opacity: 1, x: 0 }} 
-                        transition={{ delay: i * 0.2 }} 
-                        key={i}
-                    >
-                        {'> '} {log}
-                    </motion.div>
-                ))}
-            </div>
-        </motion.div>
-    );
-};
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 const Timeline = () => {
-    const [expandedId, setExpandedId] = useState<string | null>('central_hub');
+    const timelines = [
+        {
+            period: "2024 - 2028",
+            title: "Btech in Artificial Intelligence and Data Science",
+            organization: "AISSMS IOIT",
+            description: "Deep dive into Machine Learning, Neural Networks, Statistical Modeling, and Big Data infrastructure.",
+            type: "edu"
+        },
+        {
+            period: "2024",
+            title: "Data Visualization & Dashboard Engineering",
+            organization: "Personal Lab",
+            description: "Engineered high-performance real-time data visualizers. Transformed massive datasets into highly readable UI/UX graphs.",
+            type: "exp"
+        },
+        {
+            period: "2025",
+            title: "Machine Learning Researcher",
+            organization: "Stealth Node",
+            description: "Developed and optimized deep learning architectures for predictive analysis and natural language processing.",
+            type: "exp"
+        }
+    ];
+
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section id="experience" className="py-12 border-b border-terminal-border/30 font-mono">
-            <div className="container mx-auto px-6 max-w-5xl">
+        <section id="experience" className="py-16 border-b border-terminal-border/30 font-mono">
+            <div className="container mx-auto px-6 max-w-5xl" ref={ref}>
                 
-                {/* Command Input Sequence */}
-                <div className="mb-6 space-y-2">
-                    <div className="flex items-center gap-2">
-                        <span className="text-secondary">msp-star@OS:~$</span>
-                        <TypewriterText text="cd education/timelines" delay={200} />
+                <div className="mb-12 border-l border-terminal-border/40 pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-secondary">&gt;</span>
+                        <span className="text-white text-xl font-bold uppercase tracking-widest">[ EDUCATION & EXPERIENCE ]</span>
                     </div>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 1 }}
-                    >
-                        <div className="flex items-center gap-2">
-                            <span className="text-secondary">msp-star@OS:~/education/timelines$</span>
-                            <TypewriterText text="ls -l" delay={1200} />
-                        </div>
-                    </motion.div>
+                    <p className="text-slate-400 max-w-2xl text-sm leading-relaxed mt-4">
+                        A chronological timeline of my academic background and professional data science deployments.
+                    </p>
                 </div>
 
-                {/* Directory Dump */}
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 2.2 }}
-                    className="space-y-1"
-                >
-                    <div className="grid grid-cols-12 text-slate-500 text-xs border-b border-terminal-border/20 pb-2 mb-4 hidden sm:grid">
-                        <div className="col-span-2">PERMISSIONS</div>
-                        <div className="col-span-2">SIZE</div>
-                        <div className="col-span-8">DIRECTORY / FILE</div>
-                    </div>
-
-                    {timelineData.map((item) => (
-                        <div key={item.id} className="flex flex-col">
-                            <div 
-                                onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
-                                className="grid grid-cols-1 sm:grid-cols-12 hover:bg-primary/5 cursor-pointer py-1 transition-colors group items-center"
-                            >
-                                <div className="col-span-2 text-slate-600 hidden sm:block">drwxr-xr-x</div>
-                                <div className="col-span-2 text-slate-600 hidden sm:block">4096</div>
-                                <div className="col-span-12 sm:col-span-8 flex items-center gap-2 text-primary group-hover:text-white transition-colors">
-                                    <span className="text-accent/50">{expandedId === item.id ? '[-]' : '[+]'}</span> 
-                                    <span className="font-bold">dir: {item.id.toUpperCase()}</span>
-                                </div>
-                            </div>
-                            
-                            <AnimatePresence>
-                                {expandedId === item.id && <TimelineExpandedView item={item} />}
-                            </AnimatePresence>
+                {isInView && (
+                    <div className="space-y-1">
+                        {/* Table Header */}
+                        <div className="grid grid-cols-12 gap-4 px-4 py-2 border-b border-terminal-border/30 text-xs text-primary/60 font-bold uppercase tracking-widest bg-terminal-dim/5">
+                            <div className="hidden sm:block sm:col-span-3">PERIOD</div>
+                            <div className="col-span-12 sm:col-span-9">ROLE / ORGANIZATION</div>
                         </div>
-                    ))}
 
-                </motion.div>
+                        {timelines.map((item, index) => (
+                            <motion.div 
+                                key={index}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.15 }}
+                                className="grid grid-cols-12 gap-2 sm:gap-4 px-4 py-4 border-b border-terminal-border/10 hover:bg-terminal-dim/10 transition-colors text-sm group"
+                            >
+                                {/* Period cell (hidden on xs, shown on sm+) */}
+                                <div className="hidden sm:flex col-span-3 text-secondary/80 font-bold">
+                                    <span>{item.period}</span>
+                                </div>
+
+                                {/* Content cell */}
+                                <div className="col-span-12 sm:col-span-9">
+                                    {/* Show period here on mobile only */}
+                                    <div className="sm:hidden text-secondary/80 font-bold text-xs mb-1">
+                                        {item.period}
+                                    </div>
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-2">
+                                        <h3 className="text-white font-bold">{item.title}</h3>
+                                        <span className="hidden sm:inline text-slate-500">|</span>
+                                        <span className="text-primary">{item.organization}</span>
+                                    </div>
+                                    <p className="text-slate-400 text-xs leading-relaxed group-hover:text-slate-300 transition-colors">
+                                        {item.description}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );

@@ -12,10 +12,10 @@ const projects = [
         status: 'UP_AND_RUNNING',
         link: 'https://mastercalisthenicsindia.com',
         note: 'My own startup — built everything from scratch.',
-        logs: [
-            "[MCI] LOG: Processing pose data...",
-            "[MCI] LOG: Predictive model applied...",
-            "[MCI] LOG: Recommendations updated [SUCCESS]"
+        highlights: [
+            "Processed thousands of fitness data points",
+            "Deployed scalable backend on AWS",
+            "Integrated real-time user progress tracking"
         ]
     },
     {
@@ -27,10 +27,10 @@ const projects = [
         status: 'OPEN_SOURCE',
         link: 'https://github.com/iammsp-star/Mental-Health-RAG',
         note: 'Research project — published paper on AI in Healthcare.',
-        logs: [
-            "[RAG] SYS: Initializing HuggingFace Embeddings...",
-            "[RAG] SYS: Vector DB Connection established.",
-            "[RAG] INFO: Query retrieved context [OK]"
+        highlights: [
+            "Implemented Retrieval Augmented Generation",
+            "Fine-tuned vector database embeddings",
+            "Reduced hallucination rates significantly"
         ]
     },
     {
@@ -42,10 +42,10 @@ const projects = [
         status: 'ACTIVE_PROCESS',
         link: 'https://github.com/iammsp-star/portfolio-website',
         note: 'You\'re looking at it.',
-        logs: [
-            "[OS] RENDER: CRT Shader active...",
-            "[OS] INFO: Accessing root permissions... FAILED",
-            "[OS] RENDER: Display stable."
+        highlights: [
+            "Built dynamic 3D physics with Three.js",
+            "Implemented custom CSS CRT Shaders",
+            "Optimized 60fps scrolling performance"
         ]
     },
     {
@@ -57,32 +57,13 @@ const projects = [
         status: 'LIVE',
         link: 'https://github.com/iammsp-star/Control-Center-Guide',
         note: 'Built for casual gamers who are just starting out.',
-        logs: [
-            "[CCG] EVENT: Gamepad connected.",
-            "[CCG] EVENT: Button X pressed.",
-            "[CCG] SYSTEM: Mapping successful."
+        highlights: [
+            "Direct hardware interfacing in browser",
+            "Zero-latency visual feedback",
+            "Mobile-responsive gaming UI"
         ]
     }
 ];
-
-const TypewriterText = ({ text, delay = 0 }: { text: string, delay?: number }) => {
-    const [displayedText, setDisplayedText] = useState("");
-
-    React.useEffect(() => {
-        let i = 0;
-        const timer = setTimeout(() => {
-            const interval = setInterval(() => {
-                setDisplayedText(text.substring(0, i + 1));
-                i++;
-                if (i >= text.length) clearInterval(interval);
-            }, 30);
-            return () => clearInterval(interval);
-        }, delay);
-        return () => clearTimeout(timer);
-    }, [text, delay]);
-
-    return <span>{displayedText}</span>;
-};
 
 const ProjectExpandedView = ({ project }: { project: typeof projects[0] }) => {
     return (
@@ -107,39 +88,31 @@ const ProjectExpandedView = ({ project }: { project: typeof projects[0] }) => {
 
             <div className="flex items-center gap-2 pt-2">
                 <span className="bg-terminal-dim px-2 py-1 text-xs rounded-sm border border-terminal-border/30">
-                    MODULES: {project.tags}
+                    TECHNOLOGIES: {project.tags}
                 </span>
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-2 pb-4">
                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all">
-                    [ EXECUTE_LINK ]
+                    [ VIEW PROJECT ]
                 </a>
             </div>
 
-            <div className="mt-4 p-3 bg-black flex gap-4 border border-terminal-border/20 rounded-sm font-mono text-xs text-primary/70">
-                {/* Simulated Schematic Area (Static ASCII block) */}
-                <div className="hidden md:block whitespace-pre text-[8px] leading-tight text-accent/50 border-r border-terminal-border/30 pr-4">
-{`   _  _
-  ( \/ )
-   \  /
-   /  \\
-  / /\ \\
- / /  \ \\`}
-                </div>
-                
-                <div className="flex flex-col gap-1 justify-center">
-                    {project.logs.map((log, i) => (
-                        <motion.div 
+            {/* Clean clear highlights instead of fake ASCII text */}
+            <div className="mt-2 p-3 bg-black border border-terminal-border/20 rounded-sm font-mono text-xs text-primary/80">
+                <h4 className="text-secondary mb-2 uppercase tracking-widest text-[10px]">Key Achievements:</h4>
+                <ul className="flex flex-col gap-1 list-disc pl-4 text-slate-400">
+                    {project.highlights.map((highlight, i) => (
+                        <motion.li 
                             initial={{ opacity: 0, x: -10 }} 
                             whileInView={{ opacity: 1, x: 0 }} 
-                            transition={{ delay: i * 0.2 }} 
+                            transition={{ delay: i * 0.15 }} 
                             key={i}
                         >
-                            {log}
-                        </motion.div>
+                            {highlight}
+                        </motion.li>
                     ))}
-                </div>
+                </ul>
             </div>
         </motion.div>
     );
@@ -162,52 +135,33 @@ const Impact = () => {
         <section id="projects" className="py-12 border-b border-terminal-border/30 font-mono">
             <div className="container mx-auto px-6 max-w-5xl">
                 
-                {/* Command Input Sequence */}
-                <div className="mb-6 space-y-2">
-                    <div className="flex items-center gap-2">
-                        <span className="text-secondary">msp-star@OS:~$</span>
-                        <TypewriterText text="cd projects/freelance" delay={200} />
+                {/* Clean Header */}
+                <div className="mb-12 border-l border-terminal-border/40 pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-secondary">&gt;</span>
+                        <span className="text-white text-xl font-bold uppercase tracking-widest">[ FEATURED PROJECTS ]</span>
                     </div>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 1 }}
-                    >
-                        <div className="flex items-center gap-2">
-                            <span className="text-secondary">msp-star@OS:~/projects/freelance$</span>
-                            <TypewriterText text="ls -al" delay={1200} />
-                        </div>
-                    </motion.div>
+                    <p className="text-slate-400 max-w-2xl text-sm leading-relaxed mt-4">
+                        A showcase of my major applications, data science models, and research deployments.
+                    </p>
                 </div>
 
-                {/* Directory Dump */}
+                {/* Project List */}
                 <motion.div 
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 2.2 }}
                     className="space-y-1"
                 >
-                    <div className="grid grid-cols-12 text-slate-500 text-xs border-b border-terminal-border/20 pb-2 mb-4 hidden sm:grid">
-                        <div className="col-span-2">PERMS</div>
-                        <div className="col-span-1">OWNER</div>
-                        <div className="col-span-2">SIZE</div>
-                        <div className="col-span-7">NAME</div>
-                    </div>
-
                     {projects.map((project) => (
                         <div key={project.id} className="flex flex-col">
                             <div 
                                 onClick={() => setExpandedId(expandedId === project.id ? null : project.id)}
-                                className="grid grid-cols-1 sm:grid-cols-12 hover:bg-primary/5 cursor-pointer py-1 transition-colors group items-center"
+                                className="hover:bg-primary/5 cursor-pointer py-2 transition-colors group flex items-center border-b border-terminal-border/10"
                             >
-                                <div className="col-span-2 text-slate-600 hidden sm:block">drwxr-xr-x</div>
-                                <div className="col-span-1 text-slate-600 hidden sm:block">root</div>
-                                <div className="col-span-2 text-slate-600 hidden sm:block">4096</div>
-                                <div className="col-span-12 sm:col-span-7 flex items-center gap-2 text-primary group-hover:text-white transition-colors">
+                                <div className="flex items-center gap-2 text-primary group-hover:text-white transition-colors text-sm sm:text-base">
                                     <span className="text-accent/50">{expandedId === project.id ? '[-]' : '[+]'}</span> 
-                                    <span className="font-bold">dir: {project.dirName} [{project.id}]</span>
+                                    <span className="font-bold">{project.dirName}</span>
                                 </div>
                             </div>
                             
@@ -223,11 +177,11 @@ const Impact = () => {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    className="mt-16"
+                    className="mt-16 pt-8 border-t border-terminal-border/20"
                 >
                     <div className="flex items-center gap-2 mb-4">
-                        <span className="text-secondary">msp-star@OS:~/projects$</span>
-                        <span>./fetch_github_nodes.sh</span>
+                        <span className="text-secondary">&gt;</span>
+                        <span className="font-bold text-white uppercase">[ RECENT GITHUB ACTIVITY ]</span>
                     </div>
                     {repos.length > 0 ? (
                         <div className="pl-4 border-l border-terminal-border/20">
