@@ -11,7 +11,7 @@ const TerminalLayout = ({ children }: { children: React.ReactNode }) => {
 
             {/* The CRT Monitor bounds. Creates a boxed, bordered layout in the center feeling like a screen */}
             <div className="min-h-screen p-2 md:p-6 flex items-center justify-center">
-                <main className="w-full max-w-7xl min-h-[90vh] bg-terminal-dark/80 backdrop-blur-md border border-terminal-border border-glow rounded-lg overflow-hidden flex flex-col relative shadow-[0_0_50px_rgba(0,255,0,0.1)]">
+                <main className="w-full max-w-7xl min-h-[90vh] bg-terminal-dark/95 border border-terminal-border border-glow rounded-lg overflow-hidden flex flex-col relative">
                     
                     {/* Fake monitor / window header */}
                     <header className="bg-primary/10 border-b border-terminal-border px-4 py-2 flex items-center justify-between text-xs font-mono">
