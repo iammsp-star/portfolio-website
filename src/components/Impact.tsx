@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, X, ArrowUpRight, Zap, ArrowRight, FolderOpen } from 'lucide-react';
+import { ExternalLink, Github, X, ArrowUpRight, Zap, ArrowRight, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TerminalRepoList from './TerminalRepoList';
 
@@ -81,13 +81,13 @@ const projects = [
 const STATUS_CONFIG: Record<string, { label: string; color: string; dot: string }> = {
     live: {
         label: 'Live',
-        color: 'text-emerald-400',
-        dot: 'bg-emerald-400',
+        color: 'text-primary',
+        dot: 'bg-primary',
     },
     'open-source': {
         label: 'Open Source',
-        color: 'text-sky-400',
-        dot: 'bg-sky-400',
+        color: 'text-secondary',
+        dot: 'bg-secondary',
     },
     wip: {
         label: 'In Progress',
@@ -108,51 +108,59 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
             onClick={onClose}
         >
             <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-                className="w-full sm:max-w-lg bg-[#0a0f0a] border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 space-y-5 shadow-2xl"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                className="w-full max-w-2xl glass-card rounded-2xl p-6 md:p-8 space-y-6 shadow-2xl relative overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
             >
+                {/* Background glow for modal */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+                
                 {/* Header */}
-                <div className="flex items-start justify-between gap-3">
-                    <div className="space-y-1">
+                <div className="flex items-start justify-between gap-4 relative z-10">
+                    <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                            <span className={`w-2 h-2 rounded-full ${s.dot} animate-pulse`} />
-                            <span className={`text-xs font-mono ${s.color}`}>{s.label}</span>
-                            <span className="text-slate-700 text-xs">· {project.year}</span>
+                            <span className={`w-2 h-2 rounded-full ${s.dot} shadow-[0_0_8px_currentColor]`} />
+                            <span className={`text-xs font-mono tracking-widest uppercase ${s.color}`}>{s.label}</span>
+                            <span className="text-slate-500 text-xs font-mono">· {project.year}</span>
                         </div>
-                        <h2 className="text-xl font-bold text-white">{project.title}</h2>
+                        <h2 className="text-3xl font-display font-medium text-white">{project.title}</h2>
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-slate-600 hover:text-white transition-colors p-1 mt-0.5 shrink-0"
+                        className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors shrink-0"
                     >
-                        <X size={18} />
+                        <X size={16} />
                     </button>
                 </div>
 
                 {/* Description */}
-                <p className="text-slate-400 text-sm leading-relaxed">{project.description}</p>
+                <p className="text-slate-300 text-base leading-relaxed font-light relative z-10">
+                    {project.description}
+                </p>
 
                 {/* Note */}
                 {project.note && (
-                    <p className="text-xs text-slate-600 italic border-l-2 border-slate-800 pl-3">
-                        {project.note}
-                    </p>
+                    <div className="relative z-10 glass-card bg-primary/5 border-primary/20 p-4 rounded-xl">
+                        <p className="text-sm text-slate-300 italic flex items-center gap-2">
+                            <span className="w-1 h-1 rounded-full bg-primary/50"></span>
+                            {project.note}
+                        </p>
+                    </div>
                 )}
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2 relative z-10">
                     {project.tags.map((tag, i) => (
                         <span
                             key={i}
-                            className="px-2 py-0.5 text-xs font-mono bg-slate-900 border border-slate-800 text-slate-400 rounded"
+                            className="px-3 py-1.5 text-xs font-medium bg-white/5 border border-white/10 text-slate-300 rounded-lg"
                         >
                             {tag}
                         </span>
@@ -160,16 +168,16 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
                 </div>
 
                 {/* Links */}
-                <div className="flex gap-3 pt-1">
+                <div className="flex gap-4 pt-4 border-t border-white/10 relative z-10">
                     {project.links.demo && (
                         <a
                             href={project.links.demo}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm px-4 py-2 bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-all rounded-lg font-mono"
+                            className="flex items-center gap-2 text-sm px-6 py-3 bg-primary/10 border border-primary/30 text-white hover:bg-primary hover:text-black transition-all rounded-xl font-medium shadow-[0_0_15px_rgba(59,130,246,0.15)] hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
                         >
-                            <Zap size={14} />
-                            View Live
+                            <Zap size={16} />
+                            Initialize Live Preview
                         </a>
                     )}
                     {project.links.github && (
@@ -177,10 +185,10 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
                             href={project.links.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm px-4 py-2 border border-slate-700 text-slate-300 hover:border-slate-500 hover:text-white transition-all rounded-lg"
+                            className="flex items-center gap-2 text-sm px-6 py-3 border border-white/20 text-slate-300 hover:border-white hover:text-white transition-all rounded-xl font-medium"
                         >
-                            <Github size={14} />
-                            Source
+                            <Github size={16} />
+                            View Source Nodes
                         </a>
                     )}
                 </div>
@@ -204,78 +212,69 @@ const ProjectCard = ({
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.4 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.5 }}
             onClick={onClick}
-            className="group relative bg-[#070d07] border border-slate-800 rounded-xl p-5 cursor-pointer hover:border-primary/40 hover:shadow-[0_0_24px_rgba(0,255,65,0.07)] transition-all duration-200 flex flex-col gap-3"
+            className="group relative glass-card rounded-2xl p-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all duration-300 hover-magnetic flex flex-col gap-4 overflow-hidden h-full"
         >
+            {/* Ambient hover glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
             {/* Top row */}
-            <div className="flex items-start justify-between gap-3">
-                <div className="space-y-0.5">
+            <div className="flex items-start justify-between gap-3 relative z-10">
+                <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
-                        <span className={`w-1.5 h-1.5 rounded-full ${s.dot} ${project.status === 'live' ? 'animate-pulse' : ''}`} />
-                        <span className={`text-xs font-mono ${s.color}`}>{s.label}</span>
-                        <span className="text-slate-700 text-xs font-mono">· {project.year}</span>
+                        <span className={`w-1.5 h-1.5 rounded-full ${s.dot} shadow-[0_0_8px_currentColor]`} />
+                        <span className={`text-[10px] font-mono tracking-widest uppercase ${s.color}`}>{s.label}</span>
                     </div>
-                    <h3 className="text-base font-semibold text-white group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-display font-medium text-white group-hover:text-primary transition-colors">
                         {project.title}
                     </h3>
                 </div>
-                <ArrowUpRight
-                    size={16}
-                    className="text-slate-700 group-hover:text-primary transition-colors shrink-0 mt-1"
-                />
+                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <ArrowUpRight
+                        size={16}
+                        className="text-slate-400 group-hover:text-primary transition-colors shrink-0"
+                    />
+                </div>
             </div>
 
             {/* Description */}
-            <p className="text-slate-500 text-sm leading-relaxed line-clamp-2">
+            <p className="text-slate-400 text-sm leading-relaxed font-light line-clamp-3 relative z-10 flex-grow">
                 {project.description}
             </p>
 
             {/* Tags */}
-            <div className="flex flex-wrap gap-1.5">
-                {project.tags.slice(0, 4).map((tag, i) => (
+            <div className="flex flex-wrap gap-2 relative z-10">
+                {project.tags.slice(0, 3).map((tag, i) => (
                     <span
                         key={i}
-                        className="px-2 py-0.5 text-xs font-mono bg-slate-900/80 border border-slate-800 text-slate-500 rounded group-hover:border-primary/20 group-hover:text-slate-400 transition-colors"
+                        className="px-2.5 py-1 text-xs font-medium bg-white/5 border border-white/10 text-slate-300 rounded-lg group-hover:border-primary/20 group-hover:text-white transition-colors"
                     >
                         {tag}
                     </span>
                 ))}
-                {project.tags.length > 4 && (
-                    <span className="text-xs text-slate-700 py-0.5">+{project.tags.length - 4}</span>
-                )}
             </div>
 
             {/* Quick links */}
-            <div className="flex items-center gap-3 pt-1 border-t border-slate-800/60">
-                {hasDemo && (
-                    <a
-                        href={project.links.demo!}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 text-xs text-emerald-400/70 hover:text-emerald-400 transition-colors"
-                    >
-                        <ExternalLink size={12} />
-                        Live site
-                    </a>
-                )}
-                {hasGithub && (
-                    <a
-                        href={project.links.github!}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 transition-colors"
-                    >
-                        <Github size={12} />
-                        GitHub
-                    </a>
-                )}
-                <span className="ml-auto text-xs text-slate-700">click to expand</span>
+            <div className="flex items-center justify-between pt-4 border-t border-white/5 relative z-10 mt-auto">
+                <div className="flex gap-4">
+                    {hasDemo && (
+                        <div className="flex items-center gap-1.5 text-xs text-primary/70 group-hover:text-primary transition-colors">
+                            <ExternalLink size={14} />
+                            Deploy
+                        </div>
+                    )}
+                    {hasGithub && (
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500 group-hover:text-slate-300 transition-colors">
+                            <Github size={14} />
+                            Source
+                        </div>
+                    )}
+                </div>
+                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Execute</span>
             </div>
         </motion.div>
     );
@@ -305,34 +304,32 @@ const Impact = () => {
     }, []);
 
     return (
-        <section id="projects" className="py-20 font-mono">
-            <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+        <section id="projects" className="py-32 relative font-sans">
+            {/* Ambient Background */}
+            <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none translate-x-1/3"></div>
 
-                {/* Terminal Header */}
+            <div className="container mx-auto px-6 relative z-10 max-w-6xl">
+
+                {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: -8 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mb-12"
+                    className="text-center mb-20 space-y-4"
                 >
-                    <div className="flex flex-col gap-2 mb-6">
-                        <span className="text-primary text-[10px] uppercase tracking-[0.2em] font-mono">
-                            // system_inventory
-                        </span>
-                        <div className="flex items-center gap-3">
-                            <FolderOpen size={24} className="text-amber-500/80" />
-                            <h2 className="text-2xl md:text-3xl font-bold text-white font-mono">
-                                ~/projects/portfolio <span className="animate-pulse text-primary italic font-light ml-2">_cursor_active</span>
-                            </h2>
-                        </div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-primary/20 text-primary text-xs font-medium uppercase tracking-widest mb-4">
+                        <Code size={14} /> Executed Protocols
                     </div>
-                    <p className="text-slate-500 text-sm max-w-md font-mono">
-                        A mix of real products, research, and side projects — click any card to see more.
+                    <h2 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
+                        Impact & Solutions
+                    </h2>
+                    <p className="text-slate-400 text-lg max-w-2xl mx-auto font-light">
+                        A collection of weightless systems, data architectures, and fully deployed products.
                     </p>
                 </motion.div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-20 max-w-5xl mx-auto">
                     {projects.map((project) => (
                         <ProjectCard
                             key={project.id}
@@ -344,30 +341,30 @@ const Impact = () => {
 
                 {/* Full Repository List */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="space-y-6"
+                    className="space-y-8 max-w-4xl mx-auto"
                 >
-                    <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest font-mono">
-                            Recent Repositories
+                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                        <h3 className="text-lg font-display font-medium text-white tracking-wide">
+                            Open Source Nodes
                         </h3>
                         {repos.length > 0 && (
-                            <span className="text-[10px] text-slate-600 font-mono">
-                                {repos.length} nodes detected
+                            <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-slate-300 font-mono">
+                                {repos.length} REPOSITORIES
                             </span>
                         )}
                     </div>
 
                     {loadingRepos ? (
-                        <div className="flex flex-col items-center justify-center py-12 gap-3">
-                            <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                            <span className="text-[10px] text-primary/60 animate-pulse font-mono tracking-widest uppercase">Initializing_System...</span>
+                        <div className="flex flex-col items-center justify-center py-20 gap-4">
+                            <div className="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                            <span className="text-sm text-primary/60 animate-pulse font-mono tracking-widest uppercase">Fetching_Data_Points...</span>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto">
-                            <div className="min-w-[500px]">
+                        <div className="overflow-x-auto glass-card rounded-2xl border border-white/5 p-1">
+                            <div className="min-w-[700px]">
                                 <TerminalRepoList repos={repos.slice(0, 8)} />
                             </div>
                         </div>
@@ -379,23 +376,23 @@ const Impact = () => {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    className="flex flex-col items-center gap-6 mt-16"
+                    className="flex flex-col items-center gap-6 mt-20"
                 >
                     <Link
                         to="/projects"
-                        className="group flex items-center gap-2 px-6 py-3 bg-primary/5 hover:bg-primary/10 border border-primary/20 hover:border-primary/40 rounded-full text-primary transition-all duration-300"
+                        className="group flex items-center gap-3 px-8 py-4 glass-card border border-primary/30 hover:bg-primary/10 hover:border-primary/50 rounded-xl text-white transition-all duration-300 hover-magnetic"
                     >
-                        <span className="text-sm font-mono tracking-wide">View full project directory</span>
-                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        <span className="font-medium">Access Full Directory</span>
+                        <ArrowRight size={18} className="text-primary group-hover:translate-x-1 transition-transform" />
                     </Link>
 
-                    <p className="text-xs text-slate-700 font-mono">
-                        more coming soon —{' '}
+                    <p className="text-sm text-slate-500 font-light">
+                        Source code available at{' '}
                         <a
                             href="https://github.com/iammsp-star"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-slate-600 hover:text-primary transition-colors"
+                            className="text-primary hover:text-white transition-colors"
                         >
                             github.com/iammsp-star
                         </a>

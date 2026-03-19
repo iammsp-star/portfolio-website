@@ -1,86 +1,82 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Terminal, Cpu, Wifi } from 'lucide-react';
+import { Layers } from 'lucide-react';
 import LiveStats from './LiveStats';
 import CommandPrompt from './CommandPrompt';
+import { motion } from 'framer-motion';
 
 const TerminalLayout = ({ children }: { children: React.ReactNode }) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [bitrate, setBitrate] = useState(100);
-    const [cpuLoad, setCpuLoad] = useState(10);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setBitrate(Math.floor(Math.random() * 500) + 800);
-            setCpuLoad(Math.floor(Math.random() * 30) + 10);
-        }, 2000);
-        return () => clearInterval(interval);
-    }, []);
 
     const navItems = [
-        { name: 'About', path: '/' },
+        { name: 'Home', path: '/' },
         { name: 'Projects', path: '/projects' },
-        // { name: 'Skills', path: '/skills' }, // Placeholder for now if route doesn't exist
-        // { name: 'Contact', path: '/contact' } // Placeholder
     ];
 
     return (
-        <div className="min-h-screen flex flex-col font-mono relative z-10">
-            {/* Top Bar / Status */}
-            <div className="w-full bg-slate-900/80 border-b border-gray-800 p-2 flex justify-between items-center text-xs md:text-sm sticky top-0 z-40 backdrop-blur-sm">
-                <div className="flex items-center gap-4 text-primary">
-                    <div className="flex items-center gap-2">
-                        <Terminal size={16} />
-                        <span className="hidden md:inline">TERMINAL_V.2.0.1</span>
+        <div className="min-h-screen flex flex-col relative z-10 selection:bg-primary/30 selection:text-white">
+            {/* Top Navigation Bar (Floating Glass) */}
+            <motion.header 
+                initial={{ y: -100 }}
+                animate={{ y: 0 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-2xl glass-nav px-6 py-4 flex justify-between items-center"
+            >
+                <div 
+                    className="flex items-center gap-3 cursor-pointer group"
+                    onClick={() => navigate('/')}
+                >
+                    <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/40 flex flex-col items-center justify-center group-hover:bg-primary/30 transition-colors">
+                        <Layers size={16} className="text-primary group-hover:scale-110 transition-transform" />
                     </div>
-                    <span className="text-gray-500">|</span>
-                    <span className="text-secondary">USER: FOUNDER</span>
+                    <span className="font-display font-medium text-lg tracking-wide hidden sm:block">
+                        Manas<span className="text-primary/80 font-light">.Puthanpura</span>
+                    </span>
                 </div>
 
-                <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-2 text-accent">
-                        <Wifi size={14} className={bitrate > 1000 ? "text-primary" : "text-yellow-500"} />
-                        <span>{bitrate} Kbps</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-accent">
-                        <Cpu size={14} className={cpuLoad > 30 ? "text-red-500" : "text-green-500"} />
-                        <span>CPU: {cpuLoad}%</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Navigation "Prompt" */}
-            <div className="bg-black/50 border-b border-primary/20 p-4 sticky top-[40px] z-30 backdrop-blur-md">
-                <div className="container mx-auto flex flex-wrap items-center gap-4 text-lg">
-                    <span className="text-primary font-bold">C:\Users\Founder&gt;</span>
-                    <div className="flex flex-wrap gap-2 md:gap-4">
-                        {navItems.map((item) => (
+                <nav className="flex items-center gap-1 sm:gap-2 bg-white/5 p-1 rounded-xl border border-white/10">
+                    {navItems.map((item) => {
+                        const isActive = location.pathname === item.path;
+                        return (
                             <button
                                 key={item.path}
                                 onClick={() => navigate(item.path)}
-                                className={`px-3 py-1 border border-transparent hover:bg-primary hover:text-black transition-colors duration-200 ${location.pathname === item.path
-                                    ? 'bg-primary/20 text-primary border-primary'
-                                    : 'text-gray-400'
-                                    }`}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 relative ${
+                                    isActive 
+                                        ? 'text-white' 
+                                        : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                }`}
                             >
-                                [{item.name}]
+                                {isActive && (
+                                    <motion.div 
+                                        layoutId="nav-indicator"
+                                        className="absolute inset-0 bg-primary/20 border border-primary/30 rounded-lg -z-10"
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                    />
+                                )}
+                                {item.name}
                             </button>
-                        ))}
-                    </div>
-                    <span className="animate-pulse text-primary block w-3 h-6 bg-primary ml-1"></span>
-                </div>
+                        );
+                    })}
+                </nav>
+            </motion.header>
+
+            {/* Background ambient lighting */}
+            <div className="fixed inset-0 pointer-events-none z-[-1]">
+                <div className="absolute top-0 right-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px]"></div>
+                <div className="absolute bottom-0 left-[10%] w-[600px] h-[600px] bg-[#001333] rounded-full blur-[150px]"></div>
             </div>
 
             {/* Main Content Area */}
-            <main className="flex-grow container mx-auto px-4 py-8 relative">
-                <div className="border border-gray-800 bg-black/60 p-1 md:p-6 rounded-lg shadow-2xl min-h-[60vh] border-glow">
-                    {children}
-                </div>
+            <main className="flex-grow pt-32 pb-16 relative">
+                {children}
             </main>
 
-            {/* Footer */}
+            {/* Footer / Stats */}
             <LiveStats />
+            
+            {/* Keeping CommandPrompt widget, but styling it later */}
             <CommandPrompt />
         </div>
     );

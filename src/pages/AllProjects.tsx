@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, FolderOpen } from 'lucide-react';
+import { ArrowLeft, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TerminalRepoList from '../components/TerminalRepoList';
 
@@ -37,44 +37,41 @@ export const AllProjects = () => {
     }, []);
 
     return (
-        <div className="min-h-screen relative z-10 py-12 px-6 font-mono">
+        <div className="min-h-screen relative z-10 py-16 px-6 font-sans">
             <div className="max-w-7xl mx-auto">
-                <Link to="/" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-12 group">
+                <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-16 group px-4 py-2 rounded-xl glass-card border border-white/5 hover:bg-white/5">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                    <span className="text-sm">cd ..</span>
+                    <span className="text-sm font-medium">Return to Nexus</span>
                 </Link>
 
-                <div className="mb-12">
-                    <div className="flex flex-col gap-2 mb-8">
-                        <span className="text-slate-600 text-[10px] uppercase tracking-[0.2em]">Current_Dir</span>
-                        <div className="flex items-center gap-3">
-                            <FolderOpen size={24} className="text-amber-500/80" />
-                            <h1 className="text-2xl md:text-3xl font-bold text-slate-200">
-                                ~/projects/portfolio <span className="animate-pulse text-primary italic font-light ml-2">_cursor_active</span>
-                            </h1>
-                        </div>
+                <div className="mb-16 space-y-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-primary/20 text-primary text-xs font-medium uppercase tracking-widest mb-2">
+                        <Code size={14} /> Global Directory
                     </div>
-
-                    <p className="text-slate-500 max-w-2xl text-sm leading-relaxed mb-12">
-                        A complete inventory of system repositories and experimental modules, 
-                        synchronized with remote GitHub services.
+                    <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
+                        All Neural Nodes
+                    </h1>
+                    <p className="text-slate-400 max-w-2xl text-lg font-light leading-relaxed">
+                        A complete inventory of system repositories, experimental modules, and data architectures, synchronized seamlessly with remote networks.
                     </p>
                 </div>
 
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20 gap-4">
-                        <div className="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                        <span className="text-xs text-primary/60 animate-pulse font-mono">FETCHING_REMOTE_DATA...</span>
+                    <div className="flex flex-col items-center justify-center py-32 gap-6">
+                        <div className="w-12 h-12 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                        <span className="text-sm text-primary/60 font-mono tracking-widest uppercase animate-pulse">Syncing_Nodes...</span>
                     </div>
                 ) : (
-                    <TerminalRepoList repos={repos} />
+                    <div className="glass-card rounded-2xl border border-white/5 p-1 overflow-hidden shadow-2xl">
+                        <TerminalRepoList repos={repos} />
+                    </div>
                 )}
 
                 {/* Footer decorations */}
-                <div className="mt-8 flex justify-between items-center text-[10px] text-slate-700 uppercase tracking-widest border-t border-slate-900 pt-4">
-                    <span>Total Nodes: {repos.length}</span>
-                    <span>Status: Optimized</span>
-                    <span>Last Sync: {new Date().toLocaleTimeString()}</span>
+                <div className="mt-12 flex justify-between items-center text-[10px] text-slate-500 uppercase tracking-widest border-t border-white/10 pt-6 font-mono">
+                    <span className="flex items-center gap-2 font-medium"><span className="w-1.5 h-1.5 rounded-full bg-primary/80"></span> Nodes: {repos.length}</span>
+                    <span className="hidden sm:block">Status: Optimal</span>
+                    <span>Sync timestamp: {new Date().toLocaleTimeString()}</span>
                 </div>
             </div>
         </div>

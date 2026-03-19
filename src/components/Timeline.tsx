@@ -1,77 +1,69 @@
 import { motion } from 'framer-motion';
-import { Terminal, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import { Calendar, Briefcase, GraduationCap } from 'lucide-react';
 
-const logData = [
+const timelineData = [
     {
-        timestamp: '2024-08-01 09:00:00',
-        pid: 'edu_init',
-        status: 'RUNNING',
-        message: 'Pursuing academic module: BSc in Data Science (1st Year).',
-        details: 'Specializing in Machine Learning, Deep Learning, and Analytics. Neural pathways initializing.',
-        type: 'education'
-    },
-
-    {
-        timestamp: '2025-01-01 00:00:01',
-        pid: 'startup_launch',
-        status: 'WARNING',
-        message: 'Initialized Master Calisthenics India platform. High load detected.',
-        details: 'Launched India’s first AI-driven Calisthenics platform. Scaled to 500+ users in 3 months. System stability: 99.9%.',
-        type: 'founder'
+        year: '2025: Current',
+        title: 'Founder & Head Coach',
+        company: 'Master Calisthenics India',
+        description: 'Managing operations and coaching elite calisthenics routines. Building platforms blending fitness with data.',
+        icon: Briefcase,
     },
     {
-        timestamp: 'CURRENT_TIME',
-        pid: 'sys_main',
-        status: 'RUNNING',
-        message: 'Operating role: Full Stack AI Engineer.',
-        details: 'Merging technical expertise with product vision to build the next generation of AI tools. Continuous integration active.',
-        type: 'current'
+        year: '2024: September',
+        title: 'Freelance Software Developer',
+        company: 'Independent',
+        description: 'Developing AI wrappers and custom full-stack solutions for specialized client needs, leveraging modern web frameworks and LLMs.',
+        icon: Briefcase,
+    },
+    {
+        year: '2024: July',
+        title: 'Student: BSc Data Science',
+        company: 'School of Data Science and Business Intelligence',
+        description: 'Rigorous academic focus on machine learning algorithms, statistical modeling, and scalable database architectures.',
+        icon: GraduationCap,
+    },
+    {
+        year: '2023 - 2024',
+        title: 'Fitness Instructor',
+        company: 'Xcore Fitness',
+        description: 'Led group and individual physical training sessions with a data-driven approach to athlete progression records.',
+        icon: Briefcase,
     }
 ];
 
-const LogEntry = ({ log, index }: { log: any; index: number }) => {
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'SUCCESS': return 'text-primary';
-            case 'WARNING': return 'text-secondary';
-            case 'RUNNING': return 'text-blue-400';
-            default: return 'text-slate-400';
-        }
-    };
-
-    const getIcon = (status: string) => {
-        switch (status) {
-            case 'SUCCESS': return <CheckCircle size={14} />;
-            case 'WARNING': return <AlertCircle size={14} />;
-            case 'RUNNING': return <Clock size={14} className="animate-spin" />;
-            default: return <Terminal size={14} />;
-        }
-    };
+const TimelineCard = ({ item, index }: any) => {
+    const isEven = index % 2 === 0;
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="font-mono text-xs md:text-sm border-l-2 border-slate-800 pl-4 pb-6 relative last:pb-0 group"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: index * 0.15 }}
+            className={`flex flex-col md:flex-row gap-8 items-center md:items-start group w-full ${isEven ? 'md:flex-row-reverse' : ''}`}
         >
-            <div className={`absolute -left-[5px] top-1 w-2 h-2 rounded-full ${log.status === 'RUNNING' ? 'bg-blue-400 animate-pulse' : log.status === 'WARNING' ? 'bg-secondary' : 'bg-primary'}`}></div>
-
-            <div className="flex flex-wrap gap-2 md:gap-4 mb-1 text-slate-500 select-none">
-                <span>[{log.timestamp}]</span>
-                <span>[PID:{log.pid}]</span>
-                <span className={`flex items-center gap-1 font-bold ${getStatusColor(log.status)}`}>
-                    {getIcon(log.status)} {log.status}
-                </span>
+            {/* Timeline Node */}
+            <div className="hidden md:flex flex-col items-center relative z-10 w-24">
+                <div className="w-12 h-12 rounded-full glass-card border border-primary/30 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/20 group-hover:border-primary transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0)] group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                    <item.icon size={20} className="text-white/70 group-hover:text-white" />
+                </div>
             </div>
 
-            <div className="text-slate-300 mb-1 group-hover:text-white transition-colors">
-                <span className="text-secondary">{`>>`}</span> {log.message}
-            </div>
+            {/* Content Card */}
+            <div className={`flex-1 w-full relative ${isEven ? 'md:text-right' : 'md:text-left'}`}>
+                {/* Connecting Line (Desktop) */}
+                <div className={`hidden md:block absolute top-[24px] w-8 h-px bg-white/10 group-hover:bg-primary/50 transition-colors ${isEven ? 'right-[-4rem]' : 'left-[-4rem]'}`}></div>
 
-            <div className="text-slate-500 pl-6 border-l border-slate-800 ml-1">
-                {log.details}
+                <div className="glass-card p-6 md:p-8 rounded-2xl border border-white/5 group-hover:border-primary/30 transition-all duration-300 hover-magnetic bg-background/40 backdrop-blur-md">
+                    <div className={`flex items-center gap-3 mb-4 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
+                        <Calendar size={14} className="text-primary" />
+                        <span className="text-primary font-mono text-sm tracking-widest">{item.year}</span>
+                    </div>
+                    <h3 className="text-2xl font-display font-medium text-white mb-2">{item.title}</h3>
+                    <h4 className="text-lg text-slate-300 font-light mb-4">{item.company}</h4>
+                    <p className="text-slate-400 leading-relaxed font-light">{item.description}</p>
+                </div>
             </div>
         </motion.div>
     );
@@ -79,33 +71,37 @@ const LogEntry = ({ log, index }: { log: any; index: number }) => {
 
 const Timeline = () => {
     return (
-        <section id="experience" className="py-20 relative">
-            <div className="container mx-auto px-6 max-w-5xl">
-                <div className="glass-card bg-black/80 border border-slate-800 p-6 md:p-8 rounded-lg shadow-2xl">
-                    <div className="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
-                        <div className="flex items-center gap-2 text-slate-400">
-                            <Terminal size={18} />
-                            <span className="font-mono text-sm">/var/log/syslog</span>
-                        </div>
-                        <div className="flex gap-2">
-                            <span className="w-3 h-3 rounded-full bg-red-500/50"></span>
-                            <span className="w-3 h-3 rounded-full bg-yellow-500/50"></span>
-                            <span className="w-3 h-3 rounded-full bg-green-500/50"></span>
-                        </div>
-                    </div>
+        <section id="timeline" className="py-32 relative font-sans">
+            {/* Background elements */}
+            <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/2"></div>
+            <div className="absolute bottom-1/4 right-0 w-[300px] h-[300px] bg-primary/10 rounded-full blur-[100px] pointer-events-none translate-x-1/2"></div>
 
-                    <div className="space-y-2 font-mono h-[500px] overflow-y-auto custom-scrollbar pr-2">
-                        {logData.map((log, index) => (
-                            <LogEntry key={index} log={log} index={index} />
+            <div className="container mx-auto px-6 relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-20 space-y-4"
+                >
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-primary/20 text-primary text-xs font-medium uppercase tracking-widest mb-4">
+                        Historical Data
+                    </div>
+                    <h2 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
+                        Experience Timeline
+                    </h2>
+                    <p className="text-slate-400 text-lg max-w-2xl mx-auto font-light">
+                        Chronological execution logs detailing professional momentum and skill acquisition.
+                    </p>
+                </motion.div>
+
+                <div className="max-w-4xl mx-auto relative">
+                    {/* Central Axis Line (Desktop) */}
+                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent -translate-x-1/2"></div>
+
+                    <div className="space-y-12 md:space-y-24">
+                        {timelineData.map((item, index) => (
+                            <TimelineCard key={index} item={item} index={index} />
                         ))}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            className="text-primary animate-pulse pt-4"
-                        >
-                            <span className="mr-2">_</span>
-                            <span className="text-slate-500">Waiting for new input...</span>
-                        </motion.div>
                     </div>
                 </div>
             </div>

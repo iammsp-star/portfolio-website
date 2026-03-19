@@ -1,91 +1,126 @@
 import { motion } from 'framer-motion';
 import { Database, Layout, Server, Code, Cpu, Brain } from 'lucide-react';
 
-const SkillCard = ({ title, skills, icon: Icon, delay }: any) => {
+const FloatingElement = ({ children, delay = 0, duration = 6, yOffset = -10, className = "" }: any) => {
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay }}
-            className="border border-slate-800 bg-slate-900/40 p-6 relative group hover:border-primary/50 transition-colors"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            animate={{ y: [0, yOffset, 0] }}
+            transition={{ 
+                y: { duration: duration, repeat: Infinity, ease: "easeInOut", delay: delay },
+                opacity: { duration: 0.5 },
+                scale: { duration: 0.5 }
+            }}
+            className={className}
         >
-            <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-slate-600 group-hover:border-primary transition-colors"></div>
-            <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-slate-600 group-hover:border-primary transition-colors"></div>
-            <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-slate-600 group-hover:border-primary transition-colors"></div>
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-slate-600 group-hover:border-primary transition-colors"></div>
-
-            <div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-2">
-                <Icon size={18} className="text-secondary" />
-                <h3 className="text-lg font-bold text-primary font-mono uppercase tracking-wider">{title}</h3>
-            </div>
-
-            <div className="flex flex-wrap gap-x-4 gap-y-2 font-mono text-sm">
-                {skills.map((skill: string, idx: number) => (
-                    <div key={idx} className="flex items-center gap-2 group/skill">
-                        <span className="text-slate-600 group-hover/skill:text-secondary transition-colors">{`>`}</span>
-                        <span className="text-slate-400 group-hover/skill:text-white transition-colors">{skill}</span>
-                    </div>
-                ))}
-            </div>
+            {children}
         </motion.div>
+    );
+};
+
+const SkillCard = ({ title, skills, icon: Icon, floatDelay }: any) => {
+    return (
+        <FloatingElement delay={floatDelay} duration={7} yOffset={-12} className="h-full">
+            <div className="glass-card h-full p-6 md:p-8 rounded-2xl relative group hover-magnetic cursor-pointer overflow-hidden border border-white/5 hover:border-primary/40">
+                {/* Decorative glow on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary/20 group-hover:border-primary/40 transition-colors">
+                        <Icon size={20} className="text-slate-300 group-hover:text-white" />
+                    </div>
+                    <h3 className="text-xl font-display font-medium tracking-wide text-white">{title}</h3>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                    {skills.map((skill: string, idx: number) => (
+                        <span 
+                            key={idx} 
+                            className="px-3 py-1.5 text-sm font-medium bg-white/5 border border-white/10 rounded-lg text-slate-300 group-hover:bg-primary/10 group-hover:border-primary/20 group-hover:text-white transition-colors"
+                        >
+                            {skill}
+                        </span>
+                    ))}
+                </div>
+            </div>
+        </FloatingElement>
     );
 };
 
 const SkillsBento = () => {
     return (
-        <section id="skills" className="py-20 relative font-mono">
-            <div className="container mx-auto px-6">
+        <section id="skills" className="py-32 relative font-sans">
+            {/* Ambient Background */}
+            <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] pointer-events-none -translate-y-1/2 translate-x-1/4"></div>
+
+            <div className="container mx-auto px-6 relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-16"
+                    className="text-center mb-20 space-y-4"
                 >
-                    <span className="terminal-text text-primary text-sm tracking-widest mb-2 block">SYSTEM_CAPABILITIES</span>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-3">
-                        <Cpu size={32} className="text-secondary" />
-                        LOADED_MODULES
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-primary/20 text-primary text-xs font-medium uppercase tracking-widest mb-4">
+                        <Cpu size={14} /> System Capabilities
+                    </div>
+                    <h2 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
+                        Loaded Modules
                     </h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">
-                        Initialized frameworks and libraries available for execution.
+                    <p className="text-slate-400 text-lg max-w-2xl mx-auto font-light">
+                        Technical frameworks and tools initialized for weightless execution and high-performance engineering.
                     </p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                     <SkillCard
-                        title="Data Science & ML"
+                        title="Data Science"
                         skills={['TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'OpenCV', 'NLTK']}
-                        icon={Database}
+                        icon={Brain}
                         delay={0}
+                        floatDelay={0}
+                    />
+
+                    <SkillCard
+                        title="Engineering"
+                        skills={['Python', 'JavaScript', 'TypeScript', 'C++', 'SQL', 'HTML/CSS']}
+                        icon={Code}
+                        delay={0.1}
+                        floatDelay={1.5}
                     />
 
                     <SkillCard
                         title="Frontend Core"
-                        skills={['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Three.js', 'Vite']}
+                        skills={['React', 'TypeScript', 'Tailwind', 'Framer Motion', 'Three.js', 'Vite']}
                         icon={Layout}
                         delay={0.2}
+                        floatDelay={0.5}
                     />
 
                     <SkillCard
                         title="Backend & Cloud"
-                        skills={['FastAPI', 'Node.js', 'Supabase', 'Firebase', 'AWS', 'Docker', 'Git']}
+                        skills={['FastAPI', 'Node.js', 'Supabase', 'Firebase', 'AWS', 'Docker']}
                         icon={Server}
+                        delay={0.3}
+                        floatDelay={2}
+                    />
+
+                    <SkillCard
+                        title="Databases"
+                        skills={['PostgreSQL', 'MongoDB', 'ChromaDB', 'Redis', 'Supabase']}
+                        icon={Database}
                         delay={0.4}
+                        floatDelay={1}
                     />
 
                     <SkillCard
-                        title="Languages"
-                        skills={['Python', 'JavaScript', 'TypeScript', 'C++', 'SQL', 'HTML/CSS']}
-                        icon={Code}
-                        delay={0.6}
-                    />
-
-                    <SkillCard
-                        title="AI & Workflow"
-                        skills={['Vibe Coding', 'Research', 'Prompt Engineering']}
+                        title="AI Workflows"
+                        skills={['Agentic Coding', 'RAG Architecture', 'Prompt Engineering', 'LangChain']}
                         icon={Brain}
-                        delay={0.8}
+                        delay={0.5}
+                        floatDelay={2.5}
                     />
                 </div>
             </div>

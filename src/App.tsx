@@ -15,8 +15,7 @@ function App() {
 
   return (
     <Router basename={import.meta.env.BASE_URL}>
-      <div className="min-h-screen bg-black text-primary font-mono selection:bg-primary selection:text-black overflow-x-hidden">
-        <div className="fixed inset-0 pointer-events-none scanline z-50"></div>
+      <div className="min-h-screen bg-background text-slate-200 font-sans selection:bg-primary/30 selection:text-white overflow-x-hidden">
         <TerminalLayout>
           <Routes>
             <Route path="/" element={<Home />} />

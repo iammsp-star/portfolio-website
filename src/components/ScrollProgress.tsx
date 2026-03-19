@@ -10,11 +10,11 @@ const ScrollProgress = () => {
 
     return (
         <motion.div
-            className="fixed left-1/2 top-0 bottom-0 w-px bg-slate-800 -translate-x-1/2 z-0 hidden lg:block"
+            className="fixed left-6 top-0 bottom-0 w-[2px] bg-white/5 z-0 hidden lg:block rounded-full"
             style={{ originY: 0 }}
         >
             <motion.div
-                className="w-full bg-primary origin-top"
+                className="w-full bg-primary rounded-full shadow-[0_0_10px_rgba(59,130,246,0.6)]"
                 style={{ scaleY, height: '100%' }}
             />
         </motion.div>
