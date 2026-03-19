@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Code } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TerminalRepoList from '../components/TerminalRepoList';
 
@@ -37,41 +37,38 @@ export const AllProjects = () => {
     }, []);
 
     return (
-        <div className="min-h-screen relative z-10 py-16 px-6 font-sans">
+        <div className="font-mono text-primary p-6">
             <div className="max-w-7xl mx-auto">
-                <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-16 group px-4 py-2 rounded-xl glass-card border border-white/5 hover:bg-white/5">
+                
+                <Link to="/" className="inline-flex items-center gap-2 text-secondary hover:text-white transition-colors mb-12 group">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                    <span className="text-sm font-medium">Return to Nexus</span>
+                    <span>cd ..</span>
                 </Link>
 
-                <div className="mb-16 space-y-4">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-primary/20 text-primary text-xs font-medium uppercase tracking-widest mb-2">
-                        <Code size={14} /> Global Directory
+                <div className="mb-12 border-l border-terminal-border/40 pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-secondary">msp-star@OS:~$</span>
+                        <span className="text-white">ls -l /var/github/repositories</span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
-                        All Neural Nodes
-                    </h1>
-                    <p className="text-slate-400 max-w-2xl text-lg font-light leading-relaxed">
-                        A complete inventory of system repositories, experimental modules, and data architectures, synchronized seamlessly with remote networks.
+                    <p className="text-slate-400 max-w-2xl text-sm leading-relaxed mt-4">
+                        SYSTEM_INFO: Complete inventory of all tracked neural nodes and algorithms synchronized with the remote origin.
                     </p>
                 </div>
 
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center py-32 gap-6">
-                        <div className="w-12 h-12 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                        <span className="text-sm text-primary/60 font-mono tracking-widest uppercase animate-pulse">Syncing_Nodes...</span>
+                    <div className="flex flex-col items-center justify-center py-20 gap-4">
+                        <div className="animate-pulse">FETCHING_REMOTE_DATA... [ PLEASE WAIT ]</div>
                     </div>
                 ) : (
-                    <div className="glass-card rounded-2xl border border-white/5 p-1 overflow-hidden shadow-2xl">
+                    <div className="border border-terminal-border/20 p-4 bg-terminal-dim/10">
                         <TerminalRepoList repos={repos} />
                     </div>
                 )}
 
-                {/* Footer decorations */}
-                <div className="mt-12 flex justify-between items-center text-[10px] text-slate-500 uppercase tracking-widest border-t border-white/10 pt-6 font-mono">
-                    <span className="flex items-center gap-2 font-medium"><span className="w-1.5 h-1.5 rounded-full bg-primary/80"></span> Nodes: {repos.length}</span>
-                    <span className="hidden sm:block">Status: Optimal</span>
-                    <span>Sync timestamp: {new Date().toLocaleTimeString()}</span>
+                <div className="mt-8 flex justify-between items-center text-[10px] text-slate-500 uppercase tracking-widest border-t border-terminal-border/20 pt-4">
+                    <span>TOTAL_NODES: {repos.length}</span>
+                    <span className="hidden sm:block">STATUS: SYNCED</span>
+                    <span>TIMESTAMP: {new Date().toISOString()}</span>
                 </div>
             </div>
         </div>

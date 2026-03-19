@@ -1,57 +1,101 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Environment, MeshTransmissionMaterial } from '@react-three/drei';
+import * as THREE from 'three';
 
-const Node = ({ delay, duration, startX, startY, size, colorClass }: any) => {
+const FloatingServerRack = ({ position, rotation, scale = 1 }: any) => {
+    const meshRef = useRef<THREE.Mesh>(null);
+    
+    useFrame((state) => {
+        if (meshRef.current) {
+            meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.1;
+        }
+    });
+
     return (
-        <motion.div
-            className={`absolute rounded-full blur-[2px] ${colorClass}`}
-            style={{ 
-                width: size, 
-                height: size,
-                left: startX,
-                top: startY
-            }}
-            animate={{
-                y: [0, -40, 0],
-                x: [0, 30, 0],
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{
-                duration: duration,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: delay
-            }}
-        />
+        <mesh ref={meshRef} position={position} rotation={rotation} scale={scale}>
+            <boxGeometry args={[1, 3, 1]} />
+            <meshStandardMaterial 
+                color="#0a100a" 
+                roughness={0.8} 
+                metalness={0.5} 
+                emissive="#003300"
+                emissiveIntensity={0.1}
+            />
+            {/* Blinking server lights on the front */}
+            <mesh position={[0, 1, 0.51]}>
+                <boxGeometry args={[0.1, 0.05, 0.01]} />
+                <meshBasicMaterial color="#00ff00" />
+            </mesh>
+            <mesh position={[0, 0, 0.51]}>
+                <boxGeometry args={[0.1, 0.05, 0.01]} />
+                <meshBasicMaterial color="#00cc00" />
+            </mesh>
+            <mesh position={[0, -1, 0.51]}>
+                <boxGeometry args={[0.1, 0.05, 0.01]} />
+                <meshBasicMaterial color="#00aa00" />
+            </mesh>
+        </mesh>
+    );
+};
+
+const CyberWorkspace = () => {
+    return (
+        <group>
+            {/* Ambient Base Light */}
+            <ambientLight intensity={0.1} color="#00ff00" />
+            
+            {/* Dramatic Spotlight from top right */}
+            <spotLight 
+                position={[5, 8, 5]} 
+                angle={0.5} 
+                penumbra={1} 
+                intensity={1.5} 
+                color="#00ff00" 
+                castShadow 
+            />
+
+            {/* Subtle blue fill light from below */}
+            <pointLight position={[-5, -5, -5]} color="#0055ff" intensity={0.3} />
+
+            {/* Floor Plane (Dark metal grid concept) */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]} receiveShadow>
+                <planeGeometry args={[50, 50]} />
+                <meshStandardMaterial color="#020502" roughness={0.9} metalness={0.1} />
+            </mesh>
+
+            {/* Abstract Server / Mainframe blocks */}
+            <FloatingServerRack position={[-4, 0, -4]} rotation={[0, Math.PI / 4, 0]} scale={2} />
+            <FloatingServerRack position={[5, -1, -6]} rotation={[0, -Math.PI / 6, 0]} scale={1.5} />
+            <FloatingServerRack position={[-2, -2, -8]} rotation={[0, 0, 0]} scale={3} />
+            
+            {/* Heavy Glass panel reflecting screen */}
+            <mesh position={[0, 0, -3]} rotation={[0, 0, 0]}>
+                <planeGeometry args={[12, 8]} />
+                <MeshTransmissionMaterial 
+                    backside
+                    thickness={0.5}
+                    ior={1.2}
+                    chromaticAberration={0.05}
+                    transmission={0.9}
+                    opacity={0.1}
+                    roughness={0.3}
+                />
+            </mesh>
+
+            <fog attach="fog" args={['#010301', 5, 20]} />
+        </group>
     );
 };
 
 const Background = () => {
-    // Generate a set of static nodes parameters to avoid re-renders causing jumps
-    const nodes = [
-        { id: 1, size: 8, startX: '10%', startY: '20%', duration: 8, delay: 0, colorClass: 'bg-primary' },
-        { id: 2, size: 12, startX: '85%', startY: '15%', duration: 12, delay: 2, colorClass: 'bg-secondary' },
-        { id: 3, size: 6, startX: '50%', startY: '40%', duration: 6, delay: 1, colorClass: 'bg-white' },
-        { id: 4, size: 10, startX: '30%', startY: '70%', duration: 10, delay: 3, colorClass: 'bg-primary/50' },
-        { id: 5, size: 14, startX: '70%', startY: '80%', duration: 14, delay: 5, colorClass: 'bg-secondary/40' },
-        { id: 6, size: 7, startX: '90%', startY: '60%', duration: 9, delay: 2, colorClass: 'bg-primary' },
-        { id: 7, size: 9, startX: '15%', startY: '85%', duration: 11, delay: 4, colorClass: 'bg-secondary' },
-        { id: 8, size: 11, startX: '45%', startY: '90%', duration: 13, delay: 1, colorClass: 'bg-white/40' },
-        { id: 9, size: 5, startX: '5%', startY: '50%', duration: 7, delay: 0.5, colorClass: 'bg-primary' },
-        { id: 10, size: 15, startX: '65%', startY: '30%', duration: 15, delay: 4, colorClass: 'bg-secondary' },
-        { id: 11, size: 8, startX: '25%', startY: '10%', duration: 8.5, delay: 1.5, colorClass: 'bg-white/60' },
-        { id: 12, size: 12, startX: '95%', startY: '95%', duration: 12.5, delay: 3.5, colorClass: 'bg-primary/30' },
-    ];
-
     return (
-        <div className="fixed inset-0 w-full h-full pointer-events-none z-[-5] overflow-hidden bg-background">
-            <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
-            
-            {nodes.map(node => (
-                <Node key={node.id} {...node} />
-            ))}
-            
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none"></div>
+        <div className="fixed inset-0 w-full h-full z-[-10] bg-[#020502]">
+            <Canvas camera={{ position: [0, 0, 5], fov: 60 }} shadows>
+                <CyberWorkspace />
+                {/* Environment map to give realistic reflections to metal/glass */}
+                <Environment preset="night" />
+            </Canvas>
         </div>
     );
 };

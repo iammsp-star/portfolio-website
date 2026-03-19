@@ -1,128 +1,96 @@
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Database, Layout, Server, Code, Cpu, Brain } from 'lucide-react';
 
-const FloatingElement = ({ children, delay = 0, duration = 6, yOffset = -10, className = "" }: any) => {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            animate={{ y: [0, yOffset, 0] }}
-            transition={{ 
-                y: { duration: duration, repeat: Infinity, ease: "easeInOut", delay: delay },
-                opacity: { duration: 0.5 },
-                scale: { duration: 0.5 }
-            }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
+const TypewriterText = ({ text, delay = 0 }: { text: string, delay?: number }) => {
+    const [displayedText, setDisplayedText] = useState("");
+
+    React.useEffect(() => {
+        let i = 0;
+        const timer = setTimeout(() => {
+            const interval = setInterval(() => {
+                setDisplayedText(text.substring(0, i + 1));
+                i++;
+                if (i >= text.length) clearInterval(interval);
+            }, 30);
+            return () => clearInterval(interval);
+        }, delay);
+        return () => clearTimeout(timer);
+    }, [text, delay]);
+
+    return <span>{displayedText}</span>;
 };
 
-const SkillCard = ({ title, skills, icon: Icon, floatDelay }: any) => {
-    return (
-        <FloatingElement delay={floatDelay} duration={7} yOffset={-12} className="h-full">
-            <div className="glass-card h-full p-6 md:p-8 rounded-2xl relative group hover-magnetic cursor-pointer overflow-hidden border border-white/5 hover:border-primary/40">
-                {/* Decorative glow on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-                <div className="flex items-center gap-4 mb-8">
-                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary/20 group-hover:border-primary/40 transition-colors">
-                        <Icon size={20} className="text-slate-300 group-hover:text-white" />
-                    </div>
-                    <h3 className="text-xl font-display font-medium tracking-wide text-white">{title}</h3>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                    {skills.map((skill: string, idx: number) => (
-                        <span 
-                            key={idx} 
-                            className="px-3 py-1.5 text-sm font-medium bg-white/5 border border-white/10 rounded-lg text-slate-300 group-hover:bg-primary/10 group-hover:border-primary/20 group-hover:text-white transition-colors"
-                        >
-                            {skill}
-                        </span>
-                    ))}
-                </div>
-            </div>
-        </FloatingElement>
-    );
-};
+const skillModules = [
+    { name: 'python_core', version: 'v3.12', status: 'LOADED', color: 'text-primary' },
+    { name: 'fastapi_routing', version: 'v0.103', status: 'LOADED', color: 'text-primary' },
+    { name: 'react_ui', version: 'v18.2', status: 'LOADED', color: 'text-accent' },
+    { name: 'typescript_compiler', version: 'v5.2', status: 'LOADED', color: 'text-accent' },
+    { name: 'postgres_db', version: 'v15.0', status: 'CONNECTED', color: 'text-secondary' },
+    { name: 'scikit_learn', version: 'v1.3', status: 'LOADED', color: 'text-secondary' },
+    { name: 'pytorch_tensor', version: 'v2.1', status: 'INITIALIZING', color: 'text-yellow-400' },
+    { name: 'huggingface_hub', version: 'v0.17', status: 'CONNECTED', color: 'text-primary' },
+    { name: 'chromadb_vector', version: 'v0.4', status: 'LOADED', color: 'text-secondary' },
+    { name: 'calisthenics_engine', version: 'v1.0', status: 'OPTIMIZED', color: 'text-green-300' },
+];
 
 const SkillsBento = () => {
     return (
-        <section id="skills" className="py-32 relative font-sans">
-            {/* Ambient Background */}
-            <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] pointer-events-none -translate-y-1/2 translate-x-1/4"></div>
-
-            <div className="container mx-auto px-6 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-20 space-y-4"
-                >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-primary/20 text-primary text-xs font-medium uppercase tracking-widest mb-4">
-                        <Cpu size={14} /> System Capabilities
+        <section id="skills" className="py-12 border-b border-terminal-border/30 font-mono">
+            <div className="container mx-auto px-6 max-w-5xl">
+                
+                {/* Command Input Sequence */}
+                <div className="mb-6 space-y-2">
+                    <div className="flex items-center gap-2">
+                        <span className="text-secondary">msp-star@OS:~$</span>
+                        <TypewriterText text="sysctl --list-modules" delay={200} />
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
-                        Loaded Modules
-                    </h2>
-                    <p className="text-slate-400 text-lg max-w-2xl mx-auto font-light">
-                        Technical frameworks and tools initialized for weightless execution and high-performance engineering.
-                    </p>
-                </motion.div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                    <SkillCard
-                        title="Data Science"
-                        skills={['TensorFlow', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'OpenCV', 'NLTK']}
-                        icon={Brain}
-                        delay={0}
-                        floatDelay={0}
-                    />
-
-                    <SkillCard
-                        title="Engineering"
-                        skills={['Python', 'JavaScript', 'TypeScript', 'C++', 'SQL', 'HTML/CSS']}
-                        icon={Code}
-                        delay={0.1}
-                        floatDelay={1.5}
-                    />
-
-                    <SkillCard
-                        title="Frontend Core"
-                        skills={['React', 'TypeScript', 'Tailwind', 'Framer Motion', 'Three.js', 'Vite']}
-                        icon={Layout}
-                        delay={0.2}
-                        floatDelay={0.5}
-                    />
-
-                    <SkillCard
-                        title="Backend & Cloud"
-                        skills={['FastAPI', 'Node.js', 'Supabase', 'Firebase', 'AWS', 'Docker']}
-                        icon={Server}
-                        delay={0.3}
-                        floatDelay={2}
-                    />
-
-                    <SkillCard
-                        title="Databases"
-                        skills={['PostgreSQL', 'MongoDB', 'ChromaDB', 'Redis', 'Supabase']}
-                        icon={Database}
-                        delay={0.4}
-                        floatDelay={1}
-                    />
-
-                    <SkillCard
-                        title="AI Workflows"
-                        skills={['Agentic Coding', 'RAG Architecture', 'Prompt Engineering', 'LangChain']}
-                        icon={Brain}
-                        delay={0.5}
-                        floatDelay={2.5}
-                    />
                 </div>
+
+                {/* Module List Output */}
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 1 }}
+                    className="bg-terminal-dim/20 p-4 border border-terminal-border/20 rounded-sm"
+                >
+                    <div className="grid grid-cols-12 text-slate-500 text-xs border-b border-terminal-border/20 pb-2 mb-4">
+                        <div className="col-span-6 sm:col-span-4">MODULE_NAME</div>
+                        <div className="col-span-3 sm:col-span-4">VERSION</div>
+                        <div className="col-span-3 sm:col-span-4 text-right sm:text-left">STATE</div>
+                    </div>
+
+                    <div className="space-y-1">
+                        {skillModules.map((mod, idx) => (
+                            <motion.div 
+                                key={idx}
+                                initial={{ opacity: 0, x: -10 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 1.2 + (idx * 0.1) }}
+                                className="grid grid-cols-12 text-sm hover:bg-primary/10 transition-colors py-0.5"
+                            >
+                                <div className={`col-span-6 sm:col-span-4 ${mod.color}`}>{mod.name}</div>
+                                <div className="col-span-3 sm:col-span-4 text-slate-400">{mod.version}</div>
+                                <div className="col-span-3 sm:col-span-4 text-right sm:text-left">
+                                    <span className={mod.status === 'INITIALIZING' ? 'animate-pulse text-yellow-400' : 'text-primary/70'}>
+                                        [{mod.status}]
+                                    </span>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 2.5 }}
+                        className="mt-6 text-xs text-slate-500 border-t border-terminal-border/20 pt-2"
+                    >
+                        Total modules dynamically loaded: {skillModules.length}
+                    </motion.div>
+                </motion.div>
             </div>
         </section>
     );

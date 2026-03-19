@@ -15,7 +15,14 @@ function App() {
 
   return (
     <Router basename={import.meta.env.BASE_URL}>
-      <div className="min-h-screen bg-background text-slate-200 font-sans selection:bg-primary/30 selection:text-white overflow-x-hidden">
+      <div className="min-h-screen bg-transparent text-primary font-mono selection:bg-primary/30 selection:text-black overflow-x-hidden crt-container relative z-10">
+        
+        {/* Global CRT Overlays */}
+        <div className="scanlines"></div>
+        <div className="crt-flicker-overlay"></div>
+        <div className="crt-vignette fixed inset-0"></div>
+        <div className="crt-grid fixed inset-0"></div>
+
         <TerminalLayout>
           <Routes>
             <Route path="/" element={<Home />} />

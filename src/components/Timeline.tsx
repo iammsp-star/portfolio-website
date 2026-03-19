@@ -1,109 +1,157 @@
-import { motion } from 'framer-motion';
-import { Calendar, Briefcase, GraduationCap } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const TypewriterText = ({ text, delay = 0 }: { text: string, delay?: number }) => {
+    const [displayedText, setDisplayedText] = useState("");
+
+    React.useEffect(() => {
+        let i = 0;
+        const timer = setTimeout(() => {
+            const interval = setInterval(() => {
+                setDisplayedText(text.substring(0, i + 1));
+                i++;
+                if (i >= text.length) clearInterval(interval);
+            }, 30);
+            return () => clearInterval(interval);
+        }, delay);
+        return () => clearTimeout(timer);
+    }, [text, delay]);
+
+    return <span>{displayedText}</span>;
+};
 
 const timelineData = [
     {
-        year: '2025: Current',
-        title: 'Founder & Head Coach',
-        company: 'Master Calisthenics India',
-        description: 'Managing operations and coaching elite calisthenics routines. Building platforms blending fitness with data.',
-        icon: Briefcase,
+        id: 'central_hub',
+        status: 'ENROLLED',
+        joined: 'JULY 2025',
+        modules: ['DEEP_LEARNING', 'PREDICTIVE_ANALYTICS', 'STATISTICAL_INFERENCE'],
+        title: '[SDSBI] SCHOOL OF DATA SCIENCE AND BUSINESS INTELLIGENCE',
+        logs: [
+            "Initializing academic core...",
+            "Loading mathematical foundation arrays [OK]",
+            "Establishing data pipelines... [OK]"
+        ]
     },
     {
-        year: '2024: September',
-        title: 'Freelance Software Developer',
-        company: 'Independent',
-        description: 'Developing AI wrappers and custom full-stack solutions for specialized client needs, leveraging modern web frameworks and LLMs.',
-        icon: Briefcase,
+        id: 'independent',
+        status: 'ACTIVE',
+        joined: 'SEPT 2024',
+        modules: ['AI_WRAPPERS', 'FULL_STACK_DEV', 'LLM_INTEGRATION'],
+        title: 'FREELANCE SOFTWARE DEVELOPER',
+        logs: [
+            "Bypassing standard employment protocols...",
+            "Injecting custom client solutions...",
+            "Deploying scalable architectures [OK]"
+        ]
     },
     {
-        year: '2024: July',
-        title: 'Student: BSc Data Science',
-        company: 'School of Data Science and Business Intelligence',
-        description: 'Rigorous academic focus on machine learning algorithms, statistical modeling, and scalable database architectures.',
-        icon: GraduationCap,
-    },
-    {
-        year: '2023 - 2024',
-        title: 'Fitness Instructor',
-        company: 'Xcore Fitness',
-        description: 'Led group and individual physical training sessions with a data-driven approach to athlete progression records.',
-        icon: Briefcase,
+        id: 'xcore_fitness',
+        status: 'ARCHIVED',
+        joined: '2023-2024',
+        modules: ['PHYSICAL_TRAINING', 'DATA_DRIVEN_COACHING', 'ATHLETE_RECORDS'],
+        title: 'FITNESS INSTRUCTOR',
+        logs: [
+            "Logging physical stress tests...",
+            "Compiling athlete progression metrics...",
+            "Connection terminated."
+        ]
     }
 ];
 
-const TimelineCard = ({ item, index }: any) => {
-    const isEven = index % 2 === 0;
-
+const TimelineExpandedView = ({ item }: { item: typeof timelineData[0] }) => {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: index * 0.15 }}
-            className={`flex flex-col md:flex-row gap-8 items-center md:items-start group w-full ${isEven ? 'md:flex-row-reverse' : ''}`}
+        <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="pl-4 sm:pl-8 border-l border-terminal-border/40 mt-2 mb-4 space-y-2 overflow-hidden text-sm"
         >
-            {/* Timeline Node */}
-            <div className="hidden md:flex flex-col items-center relative z-10 w-24">
-                <div className="w-12 h-12 rounded-full glass-card border border-primary/30 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/20 group-hover:border-primary transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0)] group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                    <item.icon size={20} className="text-white/70 group-hover:text-white" />
-                </div>
+            <div className="text-secondary tracking-widest uppercase pb-2">{item.title}</div>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-slate-400">
+                <span>STATUS: <span className={item.status === 'ENROLLED' || item.status === 'ACTIVE' ? 'text-primary' : 'text-slate-500'}>{item.status}</span></span>
+                <span>JOINED: {item.joined}</span>
             </div>
-
-            {/* Content Card */}
-            <div className={`flex-1 w-full relative ${isEven ? 'md:text-right' : 'md:text-left'}`}>
-                {/* Connecting Line (Desktop) */}
-                <div className={`hidden md:block absolute top-[24px] w-8 h-px bg-white/10 group-hover:bg-primary/50 transition-colors ${isEven ? 'right-[-4rem]' : 'left-[-4rem]'}`}></div>
-
-                <div className="glass-card p-6 md:p-8 rounded-2xl border border-white/5 group-hover:border-primary/30 transition-all duration-300 hover-magnetic bg-background/40 backdrop-blur-md">
-                    <div className={`flex items-center gap-3 mb-4 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
-                        <Calendar size={14} className="text-primary" />
-                        <span className="text-primary font-mono text-sm tracking-widest">{item.year}</span>
-                    </div>
-                    <h3 className="text-2xl font-display font-medium text-white mb-2">{item.title}</h3>
-                    <h4 className="text-lg text-slate-300 font-light mb-4">{item.company}</h4>
-                    <p className="text-slate-400 leading-relaxed font-light">{item.description}</p>
-                </div>
+            <div className="text-slate-400 pt-1">
+                MODULES: <span className="text-accent">{item.modules.join(', ')}</span>
+            </div>
+            <div className="mt-4 p-2 bg-terminal-dim/30 border border-terminal-border/20 rounded-sm font-mono text-xs text-primary/70">
+                {item.logs.map((log, i) => (
+                    <motion.div 
+                        initial={{ opacity: 0, x: -10 }} 
+                        whileInView={{ opacity: 1, x: 0 }} 
+                        transition={{ delay: i * 0.2 }} 
+                        key={i}
+                    >
+                        {'> '} {log}
+                    </motion.div>
+                ))}
             </div>
         </motion.div>
     );
 };
 
 const Timeline = () => {
+    const [expandedId, setExpandedId] = useState<string | null>('central_hub');
+
     return (
-        <section id="timeline" className="py-32 relative font-sans">
-            {/* Background elements */}
-            <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/2"></div>
-            <div className="absolute bottom-1/4 right-0 w-[300px] h-[300px] bg-primary/10 rounded-full blur-[100px] pointer-events-none translate-x-1/2"></div>
-
-            <div className="container mx-auto px-6 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-20 space-y-4"
-                >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-primary/20 text-primary text-xs font-medium uppercase tracking-widest mb-4">
-                        Historical Data
+        <section id="experience" className="py-12 border-b border-terminal-border/30 font-mono">
+            <div className="container mx-auto px-6 max-w-5xl">
+                
+                {/* Command Input Sequence */}
+                <div className="mb-6 space-y-2">
+                    <div className="flex items-center gap-2">
+                        <span className="text-secondary">msp-star@OS:~$</span>
+                        <TypewriterText text="cd education/timelines" delay={200} />
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
-                        Experience Timeline
-                    </h2>
-                    <p className="text-slate-400 text-lg max-w-2xl mx-auto font-light">
-                        Chronological execution logs detailing professional momentum and skill acquisition.
-                    </p>
-                </motion.div>
-
-                <div className="max-w-4xl mx-auto relative">
-                    {/* Central Axis Line (Desktop) */}
-                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent -translate-x-1/2"></div>
-
-                    <div className="space-y-12 md:space-y-24">
-                        {timelineData.map((item, index) => (
-                            <TimelineCard key={index} item={item} index={index} />
-                        ))}
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 1 }}
+                    >
+                        <div className="flex items-center gap-2">
+                            <span className="text-secondary">msp-star@OS:~/education/timelines$</span>
+                            <TypewriterText text="ls -l" delay={1200} />
+                        </div>
+                    </motion.div>
                 </div>
+
+                {/* Directory Dump */}
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 2.2 }}
+                    className="space-y-1"
+                >
+                    <div className="grid grid-cols-12 text-slate-500 text-xs border-b border-terminal-border/20 pb-2 mb-4 hidden sm:grid">
+                        <div className="col-span-2">PERMISSIONS</div>
+                        <div className="col-span-2">SIZE</div>
+                        <div className="col-span-8">DIRECTORY / FILE</div>
+                    </div>
+
+                    {timelineData.map((item) => (
+                        <div key={item.id} className="flex flex-col">
+                            <div 
+                                onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
+                                className="grid grid-cols-1 sm:grid-cols-12 hover:bg-primary/5 cursor-pointer py-1 transition-colors group items-center"
+                            >
+                                <div className="col-span-2 text-slate-600 hidden sm:block">drwxr-xr-x</div>
+                                <div className="col-span-2 text-slate-600 hidden sm:block">4096</div>
+                                <div className="col-span-12 sm:col-span-8 flex items-center gap-2 text-primary group-hover:text-white transition-colors">
+                                    <span className="text-accent/50">{expandedId === item.id ? '[-]' : '[+]'}</span> 
+                                    <span className="font-bold">dir: {item.id.toUpperCase()}</span>
+                                </div>
+                            </div>
+                            
+                            <AnimatePresence>
+                                {expandedId === item.id && <TimelineExpandedView item={item} />}
+                            </AnimatePresence>
+                        </div>
+                    ))}
+
+                </motion.div>
             </div>
         </section>
     );

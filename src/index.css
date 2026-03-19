@@ -1,77 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --cobalt-blue: #3b82f6;
-  --neon-frost: #60a5fa;
-  --obsidian: #0a0a0f;
+@layer base {
+    :root {
+        --crt-amber: #ffb000;
+        --crt-green: #00ff00;
+        --crt-blue: #00ffff;
+    }
+
+    body {
+        @apply bg-[#020502] text-primary font-mono antialiased overflow-x-hidden;
+    }
+
+    ::selection {
+        @apply bg-primary/30 text-white;
+    }
 }
 
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background-color: var(--obsidian);
-  color: #f8fafc;
-  overflow-x: hidden;
+@layer utilities {
+    /* Subtle text glow */
+    .text-glow {
+        text-shadow: 0 0 5px rgba(0, 255, 0, 0.5), 0 0 10px rgba(0, 255, 0, 0.3);
+    }
+    .text-glow-strong {
+        text-shadow: 0 0 5px rgba(0, 255, 0, 0.8), 0 0 15px rgba(0, 255, 0, 0.5);
+    }
+
+    /* Simulate exact CRT pixels via background sizing */
+    .crt-grid {
+        background-image: linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+        background-size: 4px 4px;
+        z-index: 50;
+        pointer-events: none;
+    }
+
+    /* Screen curvature vignette */
+    .crt-vignette {
+        background: radial-gradient(circle at center, transparent 50%, rgba(0, 5, 0, 0.6) 90%, rgba(0, 5, 0, 0.9) 100%);
+        z-index: 45;
+        pointer-events: none;
+    }
+
+    .border-glow {
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.2), inset 0 0 10px rgba(0, 255, 0, 0.1);
+    }
+
+    .crt-container {
+        /* Subtle curving effect conceptually handled by styling margins/padding or actual filters */
+        transform-style: preserve-3d;
+        perspective: 1000px;
+    }
 }
 
-/* Custom Scrollbar */
+/* Base custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+    width: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--obsidian);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
+    background: #020802;
+    border-left: 1px solid rgba(0, 255, 0, 0.1);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.3);
-  border-radius: 4px;
+    background: rgba(0, 255, 0, 0.3);
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(59, 130, 246, 0.6);
+    background: rgba(0, 255, 0, 0.6);
 }
 
-/* Selection */
-::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: #ffffff;
+/* Overlay scanlines */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 40;
 }
 
-/* Glassmorphism Utilities */
-.glass-card {
-  background: rgba(20, 20, 30, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-}
-
-.glass-nav {
-  background: rgba(10, 10, 15, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Utilities */
-.text-glow {
-  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
-}
-
-.border-glow {
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
-}
-
-.hover-magnetic {
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-}
-
-.hover-magnetic:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
-  border-color: rgba(59, 130, 246, 0.4);
+.crt-flicker-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 255, 0, 0.02);
+    pointer-events: none;
+    z-index: 41;
+    animation: flicker 0.15s infinite;
 }
