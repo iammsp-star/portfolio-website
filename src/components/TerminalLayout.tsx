@@ -25,14 +25,14 @@ const TerminalLayout = ({ children }: { children: React.ReactNode }) => {
                         </div>
                     </header>
 
+                    {/* Interactive Command Runner */}
+                    <CommandPrompt />
+
                     {/* Scrollable Main Content inside the terminal window */}
                     <div className="flex-1 overflow-y-auto custom-scrollbar relative">
                         {children}
                         <LiveStats />
                     </div>
-
-                    {/* Interactive Command Runner */}
-                    <CommandPrompt />
                 </main>
             </div>
         </div>

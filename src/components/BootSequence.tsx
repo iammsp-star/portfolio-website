@@ -49,7 +49,7 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
                     >
                         <Hexagon size={32} className="text-primary" />
                     </motion.div>
-                    <h2 className="text-2xl font-display font-light text-white tracking-widest">SDBI<span className="font-bold text-primary">.CORE</span></h2>
+                    <h2 className="text-2xl font-display font-light text-white tracking-widest">MASTER<span className="font-bold text-primary">.CORE</span></h2>
                 </div>
 
                 <div className="space-y-4">
