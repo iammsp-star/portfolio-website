@@ -56,7 +56,9 @@ export const PacmanGame = () => {
     const [won, setWon] = useState(false);
 
     const stateRef = useRef({ pacPos, pacDir, nextDir, pellets, ghosts, score, lives, scared, scaredTimer, gameOver, won });
-    stateRef.current = { pacPos, pacDir, nextDir, pellets, ghosts, score, lives, scared, scaredTimer, gameOver, won };
+    useEffect(() => {
+        stateRef.current = { pacPos, pacDir, nextDir, pellets, ghosts, score, lives, scared, scaredTimer, gameOver, won };
+    });
 
     const reset = useCallback(() => {
         setPellets(makePellets());
@@ -266,7 +268,7 @@ export const PacmanGame = () => {
     return (
         <div className="flex flex-col items-start gap-2 select-none">
             <div className="flex items-center justify-between w-full mb-1">
-                <h4 className="terminal-text text-sm font-bold text-primary">CONTRIBUTIONS</h4>
+                <h4 className="terminal-text text-xs tracking-widest font-bold text-primary">[ GITHUB_MATRIX_OVERLAY ]</h4>
                 {playing && (
                     <div className="flex items-center gap-3 font-mono text-xs">
                         <span className="text-secondary">SC:{score}</span>
