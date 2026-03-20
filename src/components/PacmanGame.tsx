@@ -54,6 +54,7 @@ export const PacmanGame = () => {
     const [scaredTimer, setScaredTimer] = useState(0);
     const [gameOver, setGameOver] = useState(false);
     const [won, setWon] = useState(false);
+    const [touchStartPos, setTouchStartPos] = useState<Pos | null>(null);
 
     const stateRef = useRef({ pacPos, pacDir, nextDir, pellets, ghosts, score, lives, scared, scaredTimer, gameOver, won });
     useEffect(() => {
@@ -163,6 +164,9 @@ export const PacmanGame = () => {
             // Move ghosts
             setGhosts(gs =>
                 gs.map(ghost => {
+                    // Make ghosts 25% slower than Pacman to allow dodging
+                    if (Math.random() < 0.25) return ghost;
+
                     const { pos, dir } = ghost;
                     const tryGhostDir = (d: Dir): Pos => ({
                         x: wrap(pos.x + dirVec[d].x, COLS),
@@ -281,14 +285,29 @@ export const PacmanGame = () => {
                 )}
             </div>
 
-            {/* SVG Canvas */}
             <div className="relative" style={{ width: totalWidth, height: totalHeight }}>
                 <svg
                     width={totalWidth}
                     height={totalHeight}
-                    style={{ display: 'block' }}
+                    style={{ display: 'block', touchAction: 'none' }}
                     className="cursor-pointer"
-                    onClick={() => { if (!playing) { reset(); setPlaying(true); } }}
+                    onClick={() => { if (!playing) { reset(); setPlaying(true); } else if (gameOver || won) { reset(); setPlaying(true); } }}
+                    onTouchStart={(e) => {
+                        setTouchStartPos({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+                    }}
+                    onTouchEnd={(e) => {
+                        if (!touchStartPos) return;
+                        const dx = e.changedTouches[0].clientX - touchStartPos.x;
+                        const dy = e.changedTouches[0].clientY - touchStartPos.y;
+                        if (Math.abs(dx) > 15 || Math.abs(dy) > 15) {
+                            if (Math.abs(dx) > Math.abs(dy)) {
+                                setNextDir(dx > 0 ? 'RIGHT' : 'LEFT');
+                            } else {
+                                setNextDir(dy > 0 ? 'DOWN' : 'UP');
+                            }
+                        }
+                        setTouchStartPos(null);
+                    }}
                 >
                     {/* Contribution cells */}
                     {pellets.map((row, ry) =>
