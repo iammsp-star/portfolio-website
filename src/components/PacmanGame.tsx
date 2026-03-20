@@ -34,7 +34,7 @@ const isPower = (x: number, y: number) =>
 
 const initGhosts = (): Ghost[] =>
     GHOST_COLORS.map((color, i) => ({
-        pos: { x: 5 + i * 3, y: 3 },
+        pos: { x: 8 + i, y: 1 },
         dir: randomDir(),
         color,
         scared: false,
@@ -43,7 +43,7 @@ const initGhosts = (): Ghost[] =>
 export const PacmanGame = () => {
     const [playing, setPlaying] = useState(false);
     const [pellets, setPellets] = useState<boolean[][]>(makePellets);
-    const [pacPos, setPacPos] = useState<Pos>({ x: 10, y: 3 });
+    const [pacPos, setPacPos] = useState<Pos>({ x: 9, y: 5 });
     const [pacDir, setPacDir] = useState<Dir>('RIGHT');
     const [nextDir, setNextDir] = useState<Dir>('RIGHT');
     const [mouthOpen, setMouthOpen] = useState(true);
@@ -62,7 +62,7 @@ export const PacmanGame = () => {
 
     const reset = useCallback(() => {
         setPellets(makePellets());
-        setPacPos({ x: 10, y: 3 });
+        setPacPos({ x: 9, y: 5 });
         setPacDir('RIGHT');
         setNextDir('RIGHT');
         setGhosts(initGhosts());
@@ -208,16 +208,16 @@ export const PacmanGame = () => {
             );
             if (hitGhost) {
                 if (hitGhost.scared) {
-                    // Eat ghost
+                    // Eat ghost: return ghost to spawn
                     setScore(sc => sc + 200);
-                    setGhosts(gs => gs.map(g => g === hitGhost ? { ...g, pos: { x: 10, y: 3 } } : g));
+                    setGhosts(gs => gs.map(g => g === hitGhost ? { ...g, pos: { x: 9, y: 1 }, scared: false } : g));
                 } else {
                     const newLives = s.lives - 1;
                     setLives(newLives);
                     if (newLives <= 0) {
                         setGameOver(true);
                     } else {
-                        setPacPos({ x: 10, y: 3 });
+                        setPacPos({ x: 9, y: 5 });
                         setGhosts(initGhosts());
                     }
                 }
