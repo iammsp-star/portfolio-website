@@ -41,7 +41,7 @@ const initGhosts = (): Ghost[] =>
     }));
 
 export const PacmanGame = () => {
-    const [playing, setPlaying] = useState(false);
+    const [playing, setPlaying] = useState(true);
     const [pellets, setPellets] = useState<boolean[][]>(makePellets);
     const [pacPos, setPacPos] = useState<Pos>({ x: 9, y: 5 });
     const [pacDir, setPacDir] = useState<Dir>('RIGHT');
@@ -92,6 +92,17 @@ export const PacmanGame = () => {
         return () => window.removeEventListener('keydown', handler);
     }, []);
 
+    // Auto restart
+    useEffect(() => {
+        if (gameOver || won) {
+            const timer = setTimeout(() => {
+                reset();
+                setPlaying(true);
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [gameOver, won, reset]);
+
     // Game loop
     useEffect(() => {
         if (!playing) return;
@@ -113,14 +124,57 @@ export const PacmanGame = () => {
                 y: wrap(from.y + dirVec[dir].y, ROWS),
             });
 
-            let newDir = s.nextDir;
+            // --- Auto AI ---
+            const dirs: Dir[] = ['RIGHT', 'LEFT', 'UP', 'DOWN'];
+            const getDist = (p1: Pos, p2: Pos) => {
+                const dx = Math.abs(p1.x - p2.x);
+                const dy = Math.abs(p1.y - p2.y);
+                const wrapDx = Math.min(dx, COLS - dx);
+                const wrapDy = Math.min(dy, ROWS - dy);
+                return wrapDx + wrapDy;
+            };
+
+            let bestScore = -Infinity;
+            let chosenDir = s.pacDir;
+
+            dirs.forEach(d => {
+                const p = tryMove(d, s.pacPos);
+                let score = 0;
+
+                s.ghosts.forEach(g => {
+                    const dist = getDist(p, g.pos);
+                    if (g.scared) {
+                        if (dist === 0) score += 500;
+                        else score += 10 / dist;
+                    } else {
+                        if (dist <= 1) score -= 10000;
+                        else if (dist === 2) score -= 100;
+                    }
+                });
+
+                if (s.pellets[p.y]?.[p.x]) {
+                    score += isPower(p.x, p.y) ? 50 : 10;
+                }
+
+                let minPelletDist = Infinity;
+                s.pellets.forEach((row, ry) => row.forEach((has, cx) => {
+                    if (has) {
+                        const dist = getDist(p, { x: cx, y: ry });
+                        if (dist < minPelletDist) minPelletDist = dist;
+                    }
+                }));
+                if (minPelletDist !== Infinity) score -= minPelletDist * 2;
+
+                if (d === s.pacDir) score += 1;
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    chosenDir = d;
+                }
+            });
+
+            let newDir = chosenDir;
             let newPos = tryMove(newDir, s.pacPos);
-            // If next direction is blocked (nothing to block in this open grid), just move
-            // We'll try nextDir first, fall back to current
-            if (newPos.x === s.pacPos.x && newPos.y === s.pacPos.y) {
-                newDir = s.pacDir;
-                newPos = tryMove(newDir, s.pacPos);
-            }
 
             setPacDir(newDir);
             setPacPos(newPos);
