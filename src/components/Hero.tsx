@@ -49,10 +49,10 @@ const Hero = () => {
                 {/* Brief bio replacing system output */}
                 <div className="mt-8 text-sm md:text-base text-slate-400 max-w-2xl leading-relaxed">
                     <p className="mb-4">
-                        <span className="text-primary">&gt; DESCRIPTION:</span> I am a Data Scientist specializing in Machine Learning, Statistical Analysis, and building highly scalable intelligent systems. I transform complex datasets into actionable insights.
+                        <span className="text-primary">&gt; DESCRIPTION:</span> Data Scientist currently pursuing my degree. I am developing a strong technical foundation in statistics and computer science to eventually build scalable intelligent systems.
                     </p>
                     <p>
-                        <span className="text-primary">&gt; CURRENT FOCUS:</span> Training cutting-edge neural networks, deploying MLOps pipelines, and researching Deep Learning architectures.
+                        <span className="text-primary">&gt; CURRENT FOCUS:</span> Deep-diving into Linear Algebra and Calculus for ML, practicing data visualization techniques, and researching the history of Deep Learning architectures.
                     </p>
                 </div>
             </div>
