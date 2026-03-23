@@ -12,8 +12,8 @@ const Timeline = () => {
         },
         {
             period: "2025 — Present",
-            title: "Freelance Web Developer",
-            organization: "Master Calisthenics Elite",
+            title: "Freelance ",
+            organization: "Independent",
             description: "Designed and deployed a full-stack business website to manage community engagement, membership, and training programs.",
             type: "exp"
         }
@@ -25,7 +25,7 @@ const Timeline = () => {
     return (
         <section id="experience" className="py-16 border-b border-terminal-border/30 font-mono">
             <div className="container mx-auto px-6 max-w-5xl" ref={ref}>
-                
+
                 <div className="mb-12 border-l border-terminal-border/40 pl-4">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="text-secondary">&gt;</span>
@@ -46,7 +46,7 @@ const Timeline = () => {
                         </div>
 
                         {timelines.map((item, index) => (
-                            <motion.div 
+                            <motion.div
                                 key={index}
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
