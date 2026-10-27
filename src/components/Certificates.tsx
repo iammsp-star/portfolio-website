@@ -29,6 +29,20 @@ const certificates = [
     credential: "https://coursera.org",
     badge: "🐍",
   },
+  {
+    title: "How to break into AI roles in companies like Open AI, Emergent?",
+    issuer: "Moonshot · Scaler",
+    date: "Oct 2026",
+    credential: "https://moonshot.scaler.com/s/sl/YFXBQSURdX",
+    badge: "🚀",
+  },
+  {
+    title: "Designing Scalable RAG Pipelines",
+    issuer: "Moonshot · Scaler",
+    date: "Oct 2026",
+    credential: "https://moonshot.scaler.com/s/sl/d9XhmUfqok",
+    badge: "⚙️",
+  },
 ];
 
 const Certificates = () => {
